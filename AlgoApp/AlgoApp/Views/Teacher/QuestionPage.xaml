@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AlgoApp.Views.Teacher.QuestionPage">
+    <ContentPage.Content>
+        <Grid Padding="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label x:Name="ContentLabel" Grid.Row="0" d:Text="Question Text" />
+            <StackLayout x:Name="AnalysisStackLayout" Grid.Row="1">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="答案選項：" />
+                    <Label x:Name="AnswerListLabel" Text="xxx" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="正確答案：" />
+                    <Label x:Name="CorrectAnswerLabel" Text="xxx" />
+                </StackLayout>
+                <Label Text="解析：" />
+                <Label x:Name="AnalysisLabel" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
