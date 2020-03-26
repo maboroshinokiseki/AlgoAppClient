@@ -18,7 +18,7 @@ namespace AlgoApp.Views.Teacher
             appServer = DependencyService.Get<IAppServer>();
         }
 
-        private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (!(e.SelectedItem is MasterMenuItemModel item))
                 return;
@@ -36,7 +36,7 @@ namespace AlgoApp.Views.Teacher
             }
             else if (item.Title == "退出")
             {
-                await appServer.LogoutAsync();
+                appServer.Logout();
                 Device.BeginInvokeOnMainThread(() => App.Current.MainPage = new NavigationPage(new LoginPage()));
             }
 

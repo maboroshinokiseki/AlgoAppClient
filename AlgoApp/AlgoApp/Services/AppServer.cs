@@ -1,9 +1,8 @@
 ﻿using AlgoApp.Models.Data;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -12,40 +11,41 @@ namespace AlgoApp.Services
 {
     class AppServer : IAppServer
     {
+        private string token;
         private readonly HttpClient httpClient;
-        private readonly HttpClientHandler handler;
         public AppServer()
         {
             domain = Preferences.Get("Domain", "10.0.2.2:5000");
 
-            var cookieContainer = new CookieContainer();
-            LoadCookies();
-            handler = new HttpClientHandler { AllowAutoRedirect = true, UseCookies = true, CookieContainer = cookieContainer };
+            LoadToken();
+            var handler = new HttpClientHandler { AllowAutoRedirect = true };
             httpClient = new HttpClient(handler)
             {
                 BaseAddress = this.BaseAddress,
-                Timeout = new TimeSpan(0, 0, 100)
+                Timeout = new TimeSpan(0, 0, 100),
             };
+
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
         public async Task<LoginResultModel> LoginAsync(string username, string password)
         {
-            //handler.CookieContainer = new CookieContainer();
             var json = JsonConvert.SerializeObject(new { username, password });
             var result = await QueryAsync<LoginResultModel>(HttpMethod.Post, "user/login", json);
-
-            SaveCookies();
+            token = result.Token;
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            SaveToken();
 
             return result;
         }
 
-        public async Task<CommonResultModel> RegisterAsync(string username, string password)
+        public async Task<LoginResultModel> RegisterAsync(string username, string password)
         {
-            //handler.CookieContainer = new CookieContainer();
             var json = JsonConvert.SerializeObject(new { username, password });
-            var result = await QueryAsync<CommonResultModel>(HttpMethod.Post, "user/register", json);
-
-            SaveCookies();
+            var result = await QueryAsync<LoginResultModel>(HttpMethod.Post, "user/register", json);
+            token = result.Token;
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            SaveToken();
 
             return result;
         }
@@ -84,30 +84,14 @@ namespace AlgoApp.Services
 
         private Uri BaseAddress => new Uri($"http://{Domain}/api/");
 
-        private void SaveCookies()
+        private void SaveToken()
         {
-            Preferences.Set("Cookies", JsonConvert.SerializeObject(handler.CookieContainer.GetCookies(BaseAddress)));
+            Preferences.Set("Token", token);
         }
 
-        private void LoadCookies()
+        private void LoadToken()
         {
-            if (!Preferences.ContainsKey("Cookies"))
-            {
-                return;
-            }
-
-            foreach (var cookie in JsonConvert.DeserializeObject<List<Cookie>>(Preferences.Get("Cookies", "[]")))
-            {
-                handler.CookieContainer.Add(new Cookie
-                {
-                    Name = cookie.Name,
-                    Value = cookie.Value,
-                    Path = cookie.Path,
-                    Domain = cookie.Domain,
-                    Expired = cookie.Expired,
-                    Expires = cookie.Expires,
-                });
-            }
+            token = Preferences.Get("Token", "");
         }
 
         private async Task<T> QueryAsync<T>(HttpMethod method, string path, string jsonContent = null) where T : CommonResultModel, new()
@@ -131,7 +115,7 @@ namespace AlgoApp.Services
 
             try
             {
-                return JsonConvert.DeserializeObject<T>(responseContent);
+                return JsonConvert.DeserializeObject<T>(responseContent) ?? new T() { Code = Codes.Unknown };
             }
             catch (Exception)
             {
@@ -153,12 +137,11 @@ namespace AlgoApp.Services
             return await QueryAsync<UserModel>(HttpMethod.Get, "User/CurrentUser");
         }
 
-        public async Task<CommonResultModel> LogoutAsync()
+        public void Logout()
         {
-            var result = await QueryAsync<CommonResultModel>(HttpMethod.Get, "User/Logout");
-            //handler.CookieContainer = new CookieContainer();
-            SaveCookies();
-            return result;
+            token = "";
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            SaveToken();
         }
 
         public async Task<ClassRoomListModel> MyClassRooms()

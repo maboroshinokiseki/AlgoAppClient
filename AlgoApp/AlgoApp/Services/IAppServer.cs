@@ -8,12 +8,12 @@ namespace AlgoApp.Services
         string Domain { get; set; }
         Task<LoginResultModel> LoginAsync(string username, string password);
         Task<UserModel> GetCurrentUserAsync();
-        Task<CommonResultModel> RegisterAsync(string username, string password);
+        Task<LoginResultModel> RegisterAsync(string username, string password);
         Task<ChapterListModel> GetChaperListAsync();
         Task<QuestionListModel> GetQuestionListAsync(int chapterId);
         Task<QuestionModel> GetQuestionAsync(int questionId);
         Task<AnswerResultModel> PostAnswerAsync(int questionId, int answerId);
-        Task<CommonResultModel> LogoutAsync();
+        void Logout();
         Task<ClassRoomListModel> MyClassRooms();
     }
 }
