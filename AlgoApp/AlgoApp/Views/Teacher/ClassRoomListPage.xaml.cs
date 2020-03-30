@@ -58,13 +58,11 @@ namespace AlgoApp.Views.Teacher
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item == null)
+            if (!(e.Item is ClassRoomModel classRoom))
                 return;
 
-            await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
+            await Navigation.PushAsync(new ClassRoomPage(classRoom.Id));
 
-            //Deselect Item
-            ((ListView)sender).SelectedItem = null;
         }
     }
 }

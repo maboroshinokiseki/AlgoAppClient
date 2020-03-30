@@ -4,19 +4,16 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AlgoApp.Views.Teacher.ClassRoomListPage">
+             x:Class="AlgoApp.Views.Teacher.ClassRoomPage">
     <ListView x:Name="MyListView"
               ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"
               CachingStrategy="RecycleElement"
-              SelectionMode="None"
-              HasUnevenRows="True">
-
+              SelectionMode="None">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding Name}" Detail="{Binding StudentCount, StringFormat='學生數量：{0}'}" />
+                <TextCell Text="{Binding NickName}" />
             </DataTemplate>
         </ListView.ItemTemplate>
-
     </ListView>
 </ContentPage>

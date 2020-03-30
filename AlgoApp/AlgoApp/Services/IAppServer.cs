@@ -15,5 +15,7 @@ namespace AlgoApp.Services
         Task<AnswerResultModel> PostAnswerAsync(int questionId, int answerId);
         void Logout();
         Task<ClassRoomListModel> MyClassRooms();
+        Task<ClassRoomModel> ClassRoom(int id);
+        Task<UserModel> GetUserDetail(int id);
     }
 }

@@ -148,5 +148,15 @@ namespace AlgoApp.Services
         {
             return await QueryAsync<ClassRoomListModel>(HttpMethod.Get, "ClassRoom/MyClassRooms");
         }
+
+        public async Task<ClassRoomModel> ClassRoom(int id)
+        {
+            return await QueryAsync<ClassRoomModel>(HttpMethod.Get, $"ClassRoom/ClassRoom/{id}");
+        }
+
+        public async Task<UserModel> GetUserDetail(int id)
+        {
+            return await QueryAsync<UserModel>(HttpMethod.Get, $"User/UserDetail/{id}");
+        }
     }
 }

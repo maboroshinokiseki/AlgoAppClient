@@ -27,6 +27,10 @@ namespace AlgoApp
                 {
                     MainPage = new Views.Student.MainPage();
                 }
+                else if (res.Role == UserRole.Teacher)
+                {
+                    MainPage = new Views.Teacher.MainPage();
+                }
             }
         }
 
