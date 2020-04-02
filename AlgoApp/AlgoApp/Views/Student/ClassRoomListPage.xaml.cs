@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace AlgoApp.Views.Teacher
+namespace AlgoApp.Views.Student
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ClassRoomListPage : ContentPage
@@ -63,7 +63,7 @@ namespace AlgoApp.Views.Teacher
             if (!(e.Item is ClassRoomModel classRoom))
                 return;
 
-            await Navigation.PushAsync(new ClassRoomPage(classRoom.Id) { Title = classRoom.Name });
+            await Navigation.PushAsync(new ClassRoomPage(classRoom.Id));
 
         }
 

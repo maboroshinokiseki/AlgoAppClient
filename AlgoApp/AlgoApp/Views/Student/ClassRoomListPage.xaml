@@ -4,17 +4,24 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AlgoApp.Views.Teacher.QuestionListPage"
-             Title="题目列表">
+             x:Class="AlgoApp.Views.Student.ClassRoomListPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" IconImageSource="ic_action_add.png" Clicked="ToolbarItem_Clicked" />
+    </ContentPage.ToolbarItems>
+    
     <ListView x:Name="MyListView"
               ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"
               CachingStrategy="RecycleElement"
-              SelectionMode="None">
+              SelectionMode="None"
+              HasUnevenRows="True">
+
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding ContentWithIndex}" />
+                <TextCell Text="{Binding Name}" Detail="{Binding StudentCount, StringFormat='學生數量：{0}'}" />
             </DataTemplate>
         </ListView.ItemTemplate>
+
     </ListView>
 </ContentPage>

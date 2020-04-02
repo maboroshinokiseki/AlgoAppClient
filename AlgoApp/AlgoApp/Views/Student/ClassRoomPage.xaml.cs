@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace AlgoApp.Views.Teacher
+namespace AlgoApp.Views.Student
 {
     public partial class ClassRoomPage : ContentPage
     {
@@ -61,47 +61,7 @@ namespace AlgoApp.Views.Teacher
             if (!(e.Item is UserModel user))
                 return;
 
-            await Navigation.PushAsync(new StudentDetailTabbedPage(user.Id) { Title = user.NickName });
-        }
-
-        private async void DeletionToolbarItem_Clicked(object sender, System.EventArgs e)
-        {
-            var classRoom = await classRommTask;
-            await appServer.DeleteClassRomm(classRoom.Id);
-            await Navigation.PopAsync();
-        }
-
-        private async void RenameToolbarItem_Clicked(object sender, System.EventArgs e)
-        {
-            var classRoom = await classRommTask;
-            string name;
-            while (true)
-            {
-                name = await DisplayPromptAsync("班級名字", "", initialValue: classRoom.Name);
-                if (string.IsNullOrWhiteSpace(name))
-                {
-                    if (name != null)
-                    {
-                        await DisplayAlert("錯誤", "請輸入名字", "確認");
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            await appServer.RenameClassRomm(classRoom.Id, name);
-        }
-
-        private async void AddStudentToolbarItem_Clicked(object sender, System.EventArgs e)
-        {
-            var classRoom = await classRommTask;
-            await Navigation.PushAsync(new AddStudentToClassPage(classRoom.Id));
+            //await Navigation.PushAsync(new StudentDetailTabbedPage(user.Id) { Title = user.NickName });
         }
     }
 }

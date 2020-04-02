@@ -63,7 +63,26 @@ namespace AlgoApp.Views
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
-            var newDomain = await DisplayPromptAsync("Server Location", "", initialValue: appServer.Domain);
+            string newDomain;
+            while (true)
+            {
+                newDomain = await DisplayPromptAsync("Server Location", "", initialValue: appServer.Domain);
+                if (string.IsNullOrWhiteSpace(newDomain))
+                {
+                    if (newDomain != null)
+                    {
+                        await DisplayAlert("錯誤", "非法地址", "確認");
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
 
             var temp = newDomain.Split(':');
             if (temp.Length > 2 ||

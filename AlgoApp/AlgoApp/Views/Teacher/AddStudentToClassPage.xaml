@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AlgoApp.Views.Teacher.AddStudentToClassPage"
+             Title="添加学生">
+
+    <StackLayout>
+        <SearchBar x:Name="nameSearchBar" Placeholder="学生名字" SearchButtonPressed="SearchBar_SearchButtonPressed" />
+        <ListView x:Name="MyListView"
+                  ItemsSource="{Binding Items}"
+                  ItemTapped="MyListView_ItemTapped"
+                  CachingStrategy="RecycleElement"
+                  SelectionMode="None"
+                  HasUnevenRows="True"
+                  Margin="10">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <Label x:Name="userNameLabel" HorizontalOptions="StartAndExpand" Text="{Binding NickName}" VerticalTextAlignment="Center" />
+                            <ImageButton Source="ic_action_add_green.png" BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40" Clicked="Button_Clicked" Command="{Binding AddStudentCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}" CommandParameter="{Binding .}" />
+                            <Image Source="ic_action_check.png" BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40" IsVisible="False" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+    </StackLayout>
+
+</ContentPage>

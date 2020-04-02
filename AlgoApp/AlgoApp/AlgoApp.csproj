@@ -17,11 +17,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\Student\ClassRoomListPage.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Student\ClassRoomPage.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
     <Compile Update="Views\Student\QuestionListPage.xaml.cs">
       <DependentUpon>QuestionListPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Student\QuestionPage.xaml.cs">
       <DependentUpon>QuestionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Teacher\AnswerHistoryDetailPage.xaml.cs">
+      <DependentUpon>AnswerHistoryDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Teacher\ClassRoomPage.xaml.cs">
       <DependentUpon>ClassRoomPage.xaml</DependentUpon>
@@ -62,6 +71,15 @@
     <EmbeddedResource Update="Views\Student\QuestionPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Teacher\AddStudentToClassPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Teacher\AnswerHistoryPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Teacher\AnswerHistoryDetailPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Teacher\ClassRoomListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -69,6 +87,15 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Teacher\MainPageMaster.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Teacher\ProfilePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Teacher\StudentDetailTabbedPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Teacher\StudentProfilePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

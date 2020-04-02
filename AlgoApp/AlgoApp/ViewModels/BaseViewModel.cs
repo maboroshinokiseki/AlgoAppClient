@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AlgoApp.ViewModels
 {
-    class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         

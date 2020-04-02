@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AlgoApp.Views.Teacher.StudentProfilePage"
+             Title="用户信息">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label Text="名字:"  HorizontalOptions="StartAndExpand" FontSize="Large" />
+                <Label x:Name="nameLabel" FontSize="Large" />
+            </StackLayout>
+            <BoxView Color="Black" HeightRequest="1" HorizontalOptions="Fill" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label Text="性别:"  HorizontalOptions="StartAndExpand" FontSize="Large" />
+                <Label x:Name="genderLabel" FontSize="Large" />
+            </StackLayout>
+            <BoxView Color="Black" HeightRequest="1" HorizontalOptions="Fill" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label Text="生日:"  HorizontalOptions="StartAndExpand" FontSize="Large" />
+                <Label x:Name="birthDayLabel" FontSize="Large" />
+            </StackLayout>
+            <BoxView Color="Black" HeightRequest="1" HorizontalOptions="Fill" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label Text="正确率:"  HorizontalOptions="StartAndExpand" FontSize="Large" />
+                <Label x:Name="correctRatioLabel" FontSize="Large" />
+            </StackLayout>
+            <BoxView Color="Black" HeightRequest="1" HorizontalOptions="Fill" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label Text="做题数:"  HorizontalOptions="StartAndExpand" FontSize="Large" />
+                <Label x:Name="doneQuestionCountLabel" FontSize="Large" />
+            </StackLayout>
+            <BoxView Color="Black" HeightRequest="1" HorizontalOptions="Fill" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label Text="积分:"  HorizontalOptions="StartAndExpand" FontSize="Large" />
+                <Label x:Name="pointsLabel" FontSize="Large" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

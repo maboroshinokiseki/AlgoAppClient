@@ -4,15 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AlgoApp.Views.Teacher.ClassRoomPage"
-             x:Name="RootPage"
-             Title="班级页面">
-    
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="删除" IconImageSource="ic_action_delete.png" Order="Secondary" Clicked="DeletionToolbarItem_Clicked" />
-        <ToolbarItem Text="改名" IconImageSource="ic_action_delete.png" Order="Secondary" Clicked="RenameToolbarItem_Clicked" />
-        <ToolbarItem Text="添加学生" IconImageSource="ic_action_delete.png" Order="Secondary" Clicked="AddStudentToolbarItem_Clicked" />
-    </ContentPage.ToolbarItems>
+             x:Class="AlgoApp.Views.Student.ClassRoomPage"
+             x:Name="RootPage">
     <ListView x:Name="MyListView"
               ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"

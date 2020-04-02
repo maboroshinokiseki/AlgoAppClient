@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              x:Class="AlgoApp.Views.LoginPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Server" Clicked="ToolbarItem_Clicked" />
+        <ToolbarItem Text="Server" IconImageSource="ic_action_settings.png" Clicked="ToolbarItem_Clicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout VerticalOptions="CenterAndExpand" Margin="20">

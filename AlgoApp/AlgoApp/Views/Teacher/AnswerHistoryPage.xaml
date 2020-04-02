@@ -4,25 +4,28 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AlgoApp.Views.Teacher.ClassRoomListPage"
-             Title="班级列表">
+             x:Class="AlgoApp.Views.Teacher.AnswerHistoryPage"
+             Title="答题历史">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" IconImageSource="ic_action_add.png" Clicked="ToolbarItem_Clicked" />
-    </ContentPage.ToolbarItems>
-    
     <ListView x:Name="MyListView"
               ItemsSource="{Binding Items}"
-              ItemTapped="Handle_ItemTapped"
+              ItemTapped="MyListView_ItemTapped"
               CachingStrategy="RecycleElement"
               SelectionMode="None"
-              HasUnevenRows="True">
+              HasUnevenRows="True"
+              Margin="10">
 
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding Name}" Detail="{Binding StudentCount, StringFormat='学生数量：{0}'}" />
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal">
+                        <Label HorizontalOptions="StartAndExpand" Text="{Binding QuestionContent}" VerticalTextAlignment="Center" />
+                        <Image Source="{Binding ImageSource}" BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40" />
+                    </StackLayout>
+                </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
 
     </ListView>
+
 </ContentPage>

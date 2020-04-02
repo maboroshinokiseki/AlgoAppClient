@@ -158,5 +158,49 @@ namespace AlgoApp.Services
         {
             return await QueryAsync<UserModel>(HttpMethod.Get, $"User/UserDetail/{id}");
         }
+
+        public async Task<ClassRoomModel> AddClassRoom(string name)
+        {
+            var json = JsonConvert.SerializeObject(new { name });
+            return await QueryAsync<ClassRoomModel>(HttpMethod.Post, $"ClassRoom/AddClassRoom", json);
+        }
+
+        public async Task<CommonResultModel> DeleteClassRomm(int id)
+        {
+            return await QueryAsync<CommonResultModel>(HttpMethod.Delete, $"ClassRoom/DeleteClassRoom/{id}");
+        }
+
+        public async Task<CommonResultModel> RenameClassRomm(int id, string newName)
+        {
+            var json = JsonConvert.SerializeObject(new { newName });
+            return await QueryAsync<CommonResultModel>(HttpMethod.Put, $"ClassRoom/RenameClassRomm/{id}", json);
+        }
+
+        public async Task<UserListModel> SearchStudentsNotInClass(int excludeClassId, string name)
+        {
+            return await QueryAsync<UserListModel>(HttpMethod.Get, $"User/SearchStudentsNotInClass/{excludeClassId}/{name}");
+        }
+
+        public async Task<CommonResultModel> AddStudentToClass(int studentId, int classId)
+        {
+            var json = JsonConvert.SerializeObject(new { studentId, classId });
+            return await QueryAsync<CommonResultModel>(HttpMethod.Post, $"ClassRoom/AddStudentToClass", json);
+        }
+
+        public async Task<CommonResultModel> RemoveStudentFromClass(int studentId, int classId)
+        {
+            var json = JsonConvert.SerializeObject(new { studentId, classId });
+            return await QueryAsync<CommonResultModel>(HttpMethod.Post, $"ClassRoom/RemoveStudentFromClass", json);
+        }
+
+        public async Task<HistoryListModel> GetUserAnswerHistory(int studentId)
+        {
+            return await QueryAsync<HistoryListModel>(HttpMethod.Get, $"Answer/histories/{studentId}");
+        }
+
+        public async Task<QuestionModel> GetQuestionWithAnswerAsync(int questionId, int answerId)
+        {
+            return await QueryAsync<QuestionModel>(HttpMethod.Get, $"Questions/{questionId}/{answerId}");
+        }
     }
 }

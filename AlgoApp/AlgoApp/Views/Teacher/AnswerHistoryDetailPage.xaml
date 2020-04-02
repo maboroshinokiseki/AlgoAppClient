@@ -4,7 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AlgoApp.Views.Student.QuestionPage">
+             x:Class="AlgoApp.Views.Teacher.AnswerHistoryDetailPage"
+             Title="答题记录">
     <ContentPage.Content>
         <Grid Padding="20">
             <Grid.RowDefinitions>
@@ -12,15 +13,13 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Label x:Name="ContentLabel" Grid.Row="0" d:Text="Question Text" />
-            <StackLayout x:Name="OptionsListStackLayout" Grid.Row="1" VerticalOptions="CenterAndExpand" IsVisible="False">
-                <Button x:Name="OptionButton1" d:Text="Option 1" Clicked="OptionButton_Clicked" />
-                <Button x:Name="OptionButton2" d:Text="Option 2" Clicked="OptionButton_Clicked" />
-                <Button x:Name="OptionButton3" d:Text="Option 3" Clicked="OptionButton_Clicked" />
-                <Button x:Name="OptionButton4" d:Text="Option 4" Clicked="OptionButton_Clicked" />
-            </StackLayout>
-            <StackLayout x:Name="AnalysisStackLayout" Grid.Row="1" IsVisible="False">
+            <StackLayout x:Name="AnalysisStackLayout" Grid.Row="1">
                 <StackLayout Orientation="Horizontal">
-                    <Label Text="你的答案：" />
+                    <Label Text="答案选项：" />
+                    <Label x:Name="AnswerListLabel" Text="xxx" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="所选答案：" />
                     <Label x:Name="YourAnswerLabel" Text="xxx" />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
