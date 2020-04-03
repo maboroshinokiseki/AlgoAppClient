@@ -38,13 +38,13 @@ namespace AlgoApp.Views.Student
 
             MyListView.IsRefreshing = true;
             var classRooms = await appServer.MyClassRooms();
-            if (classRooms.ClassRooms == null)
+            if (classRooms.Items == null)
             {
                 MyListView.IsRefreshing = false;
                 return;
             }
 
-            foreach (var item in classRooms.ClassRooms)
+            foreach (var item in classRooms.Items)
             {
                 Items.Add(item);
             }

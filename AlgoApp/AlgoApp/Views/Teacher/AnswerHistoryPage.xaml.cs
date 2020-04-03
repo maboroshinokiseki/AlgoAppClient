@@ -1,11 +1,7 @@
 ﻿using AlgoApp.Models.Data;
 using AlgoApp.Services;
 using AlgoApp.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -17,7 +13,7 @@ namespace AlgoApp.Views.Teacher
     public partial class AnswerHistoryPage : ContentPage
     {
         private readonly IAppServer appServer;
-        private readonly Task<HistoryListModel> historyTask;
+        private readonly Task<CommonListResultModel<HistoryItemModel>> historyTask;
         private readonly AnswerHistoryPageViewModel vm;
 
         public AnswerHistoryPage()
@@ -47,7 +43,7 @@ namespace AlgoApp.Views.Teacher
                 return;
             }
 
-            foreach (var item in (await historyTask).historyItems)
+            foreach (var item in (await historyTask).Items)
             {
                 var source = item.Correct ? ImageSource.FromFile("ic_action_check.png") : ImageSource.FromFile("ic_icon_wrong.png");
                 vm.Items.Add(new ListModel { AnswerId = item.AnswerId, QuestionId = item.QuestionId, QuestionContent = item.QuestionContent, ImageSource = source });

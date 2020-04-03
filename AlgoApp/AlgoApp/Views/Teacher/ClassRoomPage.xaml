@@ -12,19 +12,33 @@
         <ToolbarItem Text="删除" IconImageSource="ic_action_delete.png" Order="Secondary" Clicked="DeletionToolbarItem_Clicked" />
         <ToolbarItem Text="改名" IconImageSource="ic_action_delete.png" Order="Secondary" Clicked="RenameToolbarItem_Clicked" />
         <ToolbarItem Text="添加学生" IconImageSource="ic_action_delete.png" Order="Secondary" Clicked="AddStudentToolbarItem_Clicked" />
+        <ToolbarItem Text="查看易错题列表" Order="Secondary" Clicked="ShowEasyToGetWrongQuestionsToolbarItem_Clicked" />
+        <ToolbarItem Text="按名称排序↑" Order="Secondary" Clicked="SortByNameAscToolbarItem_Clicked" />
+        <ToolbarItem Text="按名称排序↓" Order="Secondary" Clicked="SortByNameDesToolbarItem_Clicked" />
+        <ToolbarItem Text="按正确率排序↑" Order="Secondary" Clicked="SortByCorrectRatioAscToolbarItem_Clicked" />
+        <ToolbarItem Text="按正确率排序↓" Order="Secondary" Clicked="SortByCorrectRatioDesToolbarItem_Clicked" />
+        <ToolbarItem Text="按做题量排序↑" Order="Secondary" Clicked="SortByDoneCountAscToolbarItem_Clicked" />
+        <ToolbarItem Text="按做题量排序↓" Order="Secondary" Clicked="SortByDoneCountDesToolbarItem_Clicked" />
+        <ToolbarItem Text="按积分排序↑" Order="Secondary" Clicked="SortByPointsAscToolbarItem_Clicked" />
+        <ToolbarItem Text="按积分排序↓" Order="Secondary" Clicked="SortByPointsDesToolbarItem_Clicked" />
     </ContentPage.ToolbarItems>
     <ListView x:Name="MyListView"
               ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"
               CachingStrategy="RecycleElement"
-              SelectionMode="None">
+              SelectionMode="None"
+              Margin="20,0">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding NickName}">
-                    <TextCell.ContextActions>
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{Binding NickName}" HorizontalOptions="StartAndExpand" />
+                        <Label Text="{Binding Display}" WidthRequest="100" />
+                    </StackLayout>
+                    <ViewCell.ContextActions>
                         <MenuItem Text="移除" Command="{Binding RemoveStudentCommand, Source={x:Reference RootPage}}" CommandParameter="{Binding .}" IsDestructive="True" />
-                    </TextCell.ContextActions>
-                </TextCell>
+                    </ViewCell.ContextActions>
+                </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>

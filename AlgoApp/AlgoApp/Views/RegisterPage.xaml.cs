@@ -35,6 +35,7 @@ namespace AlgoApp.Views
                     await DisplayAlert("錯誤", "未知錯誤", "確定");
                     break;
                 case Codes.None:
+                    App.UserId = result.UserId;
                     Device.BeginInvokeOnMainThread(() => App.Current.MainPage = new Student.MainPage());
                     break;
                 case Codes.RegistrationFailed:

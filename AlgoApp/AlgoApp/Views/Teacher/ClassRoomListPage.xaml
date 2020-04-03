@@ -20,7 +20,7 @@
 
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding Name}" Detail="{Binding StudentCount, StringFormat='学生数量：{0}'}" />
+                <TextCell Text="{Binding Name}" Detail="{Binding StudentCount, StringFormat='学生数量：{0}'}" TextColor="Black" />
             </DataTemplate>
         </ListView.ItemTemplate>
 

@@ -21,7 +21,7 @@ namespace AlgoApp.Views.Student
             BindingContext = this;
         }
 
-        private readonly Task<QuestionListModel> questionsTask;
+        private readonly Task<CommonListResultModel<QuestionModel>> questionsTask;
         private readonly IAppServer appServer;
 
         public QuestionListPage(int chapterId) : this()
@@ -39,13 +39,13 @@ namespace AlgoApp.Views.Student
 
             MyListView.IsRefreshing = true;
             var questions = await questionsTask;
-            if (questions.Questions == null)
+            if (questions.Items == null)
             {
                 MyListView.IsRefreshing = false;
                 return;
             }
 
-            foreach (var item in questions.Questions)
+            foreach (var item in questions.Items)
             {
                 Items.Add(item);
             }

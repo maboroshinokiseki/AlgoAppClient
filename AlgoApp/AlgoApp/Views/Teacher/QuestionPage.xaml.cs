@@ -1,6 +1,5 @@
 ﻿using AlgoApp.Models.Data;
 using AlgoApp.Services;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -35,7 +34,7 @@ namespace AlgoApp.Views.Teacher
 
             ContentLabel.Text = question.Content;
 
-            AnswerListLabel.Text = string.Join("，", question.Options.Select(o => o.Content));
+            AnswerListLabel.Text = string.Join("、", question.Options.Select(o => o.Content));
             CorrectAnswerLabel.Text = question.AnswerResult.CorrectAnswer;
             AnalysisLabel.Text = question.AnswerResult.Analysis;
         }

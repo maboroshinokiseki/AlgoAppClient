@@ -1,11 +1,7 @@
 ﻿using AlgoApp.Models.Data;
 using AlgoApp.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -42,8 +38,14 @@ namespace AlgoApp.Views.Teacher
         private async void SearchBar_SearchButtonPressed(object sender, EventArgs e)
         {
             Items.Clear();
-            var users= await appServer.SearchStudentsNotInClass(classId, nameSearchBar.Text);
-            foreach (var u in users.Users)
+            var users = await appServer.SearchStudentsNotInClass(classId, nameSearchBar.Text);
+            if (users.Items.Count == 0)
+            {
+                await DisplayAlert("", "未找到任何用户", "OK");
+                return;
+            }
+
+            foreach (var u in users.Items)
             {
                 Items.Add(u);
             }

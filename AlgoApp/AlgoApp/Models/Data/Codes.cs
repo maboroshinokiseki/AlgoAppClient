@@ -7,5 +7,7 @@
         LoginFailed,
         RegistrationFailed,
         TimeOut,
+        UserAlreadyInClass,
+        NoRecord,
     }
 }

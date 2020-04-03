@@ -12,8 +12,10 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Label x:Name="ContentLabel" Grid.Row="0" d:Text="Question Text" />
-            <StackLayout x:Name="AnalysisStackLayout" Grid.Row="1">
+            <ScrollView VerticalOptions="Start">
+                <Label x:Name="ContentLabel" Grid.Row="0" d:Text="Question Text" />
+            </ScrollView>
+            <StackLayout x:Name="AnalysisStackLayout" Grid.Row="1" VerticalOptions="Start">
                 <StackLayout Orientation="Horizontal">
                     <Label Text="答案选项：" />
                     <Label x:Name="AnswerListLabel" Text="xxx" />

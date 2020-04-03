@@ -1,9 +1,6 @@
 ﻿using AlgoApp.Models.Data;
 using AlgoApp.Services;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -36,7 +33,7 @@ namespace AlgoApp.Views.Teacher
 
             ContentLabel.Text = question.Content;
 
-            AnswerListLabel.Text = string.Join("，", question.Options.Select(o => o.Content));
+            AnswerListLabel.Text = string.Join("、", question.Options.Select(o => o.Content));
             CorrectAnswerLabel.Text = question.AnswerResult.CorrectAnswer;
             AnalysisLabel.Text = question.AnswerResult.Analysis;
             YourAnswerLabel.Text = question.AnswerResult.UserAnswer;

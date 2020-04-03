@@ -9,7 +9,7 @@ namespace AlgoApp.Views.Teacher
     public partial class ChapterListPage : ContentPage
     {
         private readonly IAppServer appServer;
-        private readonly Task<ChapterListModel> chaptersTask;
+        private readonly Task<CommonListResultModel<ChapterModel>> chaptersTask;
 
         public ObservableCollection<ChapterModel> Items { get; set; }
 
@@ -36,13 +36,13 @@ namespace AlgoApp.Views.Teacher
 
             MyListView.IsRefreshing = true;
             var chapters = await chaptersTask;
-            if (chapters.Chapters == null)
+            if (chapters.Items == null)
             {
                 MyListView.IsRefreshing = false;
                 return;
             }
 
-            foreach (var item in chapters.Chapters)
+            foreach (var item in chapters.Items)
             {
                 Items.Add(item);
             }

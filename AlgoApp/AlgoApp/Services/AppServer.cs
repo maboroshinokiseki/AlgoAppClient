@@ -50,17 +50,17 @@ namespace AlgoApp.Services
             return result;
         }
 
-        public async Task<ChapterListModel> GetChaperListAsync()
+        public async Task<CommonListResultModel<ChapterModel>> GetChaperListAsync()
         {
-            return await QueryAsync<ChapterListModel>(HttpMethod.Get, "Chapters");
+            return await QueryAsync<CommonListResultModel<ChapterModel>>(HttpMethod.Get, "Chapters");
         }
 
-        public async Task<QuestionListModel> GetQuestionListAsync(int chapterId)
+        public async Task<CommonListResultModel<QuestionModel>> GetQuestionListAsync(int chapterId)
         {
-            var model = await QueryAsync<QuestionListModel>(HttpMethod.Get, $"Chapters/{chapterId}/questions");
-            for (int i = 0; i < model.Questions.Count; i++)
+            var model = await QueryAsync<CommonListResultModel<QuestionModel>>(HttpMethod.Get, $"Chapters/{chapterId}/questions");
+            for (int i = 0; i < model.Items.Count; i++)
             {
-                model.Questions[i].ContentWithIndex = $"{i + 1}、{model.Questions[i].Content}";
+                model.Items[i].ContentWithIndex = $"{i + 1}、{model.Items[i].Content}";
             }
 
             return model;
@@ -144,9 +144,9 @@ namespace AlgoApp.Services
             SaveToken();
         }
 
-        public async Task<ClassRoomListModel> MyClassRooms()
+        public async Task<CommonListResultModel<ClassRoomModel>> MyClassRooms()
         {
-            return await QueryAsync<ClassRoomListModel>(HttpMethod.Get, "ClassRoom/MyClassRooms");
+            return await QueryAsync<CommonListResultModel<ClassRoomModel>>(HttpMethod.Get, "ClassRoom/MyClassRooms");
         }
 
         public async Task<ClassRoomModel> ClassRoom(int id)
@@ -176,9 +176,9 @@ namespace AlgoApp.Services
             return await QueryAsync<CommonResultModel>(HttpMethod.Put, $"ClassRoom/RenameClassRomm/{id}", json);
         }
 
-        public async Task<UserListModel> SearchStudentsNotInClass(int excludeClassId, string name)
+        public async Task<CommonListResultModel<UserModel>> SearchStudentsNotInClass(int excludeClassId, string name)
         {
-            return await QueryAsync<UserListModel>(HttpMethod.Get, $"User/SearchStudentsNotInClass/{excludeClassId}/{name}");
+            return await QueryAsync<CommonListResultModel<UserModel>>(HttpMethod.Get, $"User/SearchStudentsNotInClass/{excludeClassId}/{name}");
         }
 
         public async Task<CommonResultModel> AddStudentToClass(int studentId, int classId)
@@ -193,14 +193,19 @@ namespace AlgoApp.Services
             return await QueryAsync<CommonResultModel>(HttpMethod.Post, $"ClassRoom/RemoveStudentFromClass", json);
         }
 
-        public async Task<HistoryListModel> GetUserAnswerHistory(int studentId)
+        public async Task<CommonListResultModel<HistoryItemModel>> GetUserAnswerHistory(int studentId)
         {
-            return await QueryAsync<HistoryListModel>(HttpMethod.Get, $"Answer/histories/{studentId}");
+            return await QueryAsync<CommonListResultModel<HistoryItemModel>>(HttpMethod.Get, $"Answer/histories/{studentId}");
         }
 
         public async Task<QuestionModel> GetQuestionWithAnswerAsync(int questionId, int answerId)
         {
             return await QueryAsync<QuestionModel>(HttpMethod.Get, $"Questions/{questionId}/{answerId}");
+        }
+
+        public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestions(int classId)
+        {
+            return await QueryAsync<CommonListResultModel<EasyToGetWrongQuestionModel>>(HttpMethod.Get, $"Questions/EasyToGetWrongQuestionsByClass/{classId}");
         }
     }
 }

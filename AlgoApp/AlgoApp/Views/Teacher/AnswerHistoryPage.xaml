@@ -13,7 +13,7 @@
               CachingStrategy="RecycleElement"
               SelectionMode="None"
               HasUnevenRows="True"
-              Margin="10">
+              Margin="20,0">
 
         <ListView.ItemTemplate>
             <DataTemplate>

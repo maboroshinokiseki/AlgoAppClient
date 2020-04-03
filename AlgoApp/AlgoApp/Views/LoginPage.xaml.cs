@@ -1,7 +1,6 @@
 ﻿using AlgoApp.Models.Data;
 using AlgoApp.Services;
 using System;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,7 +10,6 @@ namespace AlgoApp.Views
     public partial class LoginPage : ContentPage
     {
         private readonly IAppServer appServer;
-        private readonly Task<UserModel> GetCurrentUserTask;
 
         public LoginPage()
         {
@@ -20,8 +18,6 @@ namespace AlgoApp.Views
             {
                 appServer = DependencyService.Get<IAppServer>();
             }
-
-            GetCurrentUserTask = appServer.GetCurrentUserAsync();
         }
 
         private async void LoginButton_Clicked(object sender, EventArgs e)
@@ -34,6 +30,7 @@ namespace AlgoApp.Views
                     await DisplayAlert("錯誤", "未知錯誤", "確定");
                     break;
                 case Codes.None:
+                    App.UserId = res.UserId;
                     if (res.Role == "Student")
                     {
                         Device.BeginInvokeOnMainThread(() => App.Current.MainPage = new Student.MainPage());

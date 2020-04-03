@@ -2,8 +2,6 @@
 using AlgoApp.Services;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -38,13 +36,13 @@ namespace AlgoApp.Views.Teacher
 
             MyListView.IsRefreshing = true;
             var classRooms = await appServer.MyClassRooms();
-            if (classRooms.ClassRooms == null)
+            if (classRooms.Items == null)
             {
                 MyListView.IsRefreshing = false;
                 return;
             }
 
-            foreach (var item in classRooms.ClassRooms)
+            foreach (var item in classRooms.Items)
             {
                 Items.Add(item);
             }

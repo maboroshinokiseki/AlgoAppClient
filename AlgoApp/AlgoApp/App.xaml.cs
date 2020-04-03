@@ -1,15 +1,13 @@
 ﻿using AlgoApp.Models.Data;
 using AlgoApp.Services;
 using AlgoApp.Views;
-using Newtonsoft.Json;
-using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace AlgoApp
 {
     public partial class App : Application
     {
+        public static int UserId { get; set; }
         public App()
         {
             InitializeComponent();
@@ -23,6 +21,7 @@ namespace AlgoApp
             var res = await appServer.GetCurrentUserAsync();
             if (res.Code == Codes.None)
             {
+                UserId = res.Id;
                 if (res.Role == UserRole.Student)
                 {
                     MainPage = new Views.Student.MainPage();
