@@ -1,53 +1,48 @@
 ﻿using AlgoApp.Models.Data;
 using AlgoApp.Services;
+using AlgoApp.ViewModels;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace AlgoApp.Views.Teacher
+namespace AlgoApp.Views
 {
     public partial class ChapterListPage : ContentPage
     {
+        private readonly CommonListViewViewModel<ChapterModel> VM;
         private readonly IAppServer appServer;
         private readonly Task<CommonListResultModel<ChapterModel>> chaptersTask;
-
-        public ObservableCollection<ChapterModel> Items { get; set; }
 
         public ChapterListPage()
         {
             InitializeComponent();
 
             appServer = DependencyService.Get<IAppServer>();
-
-            Items = new ObservableCollection<ChapterModel>();
-
-            BindingContext = this;
-
+            VM = new CommonListViewViewModel<ChapterModel>();
+            BindingContext = VM;
             chaptersTask = appServer.GetChaperListAsync();
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            if (Items.Count != 0)
+
+            if (VM.Items != null)
             {
                 return;
             }
 
-            MyListView.IsRefreshing = true;
+            VM.IsBusy = true;
             var chapters = await chaptersTask;
             if (chapters.Items == null)
             {
-                MyListView.IsRefreshing = false;
+                VM.IsBusy = false;
                 return;
             }
 
-            foreach (var item in chapters.Items)
-            {
-                Items.Add(item);
-            }
-            await Task.Delay(1000);
-            MyListView.IsRefreshing = false;
+            VM.Items = new ObservableCollection<ChapterModel>(chapters.Items);
+            await Task.Delay(500);
+            VM.IsBusy = false;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -55,7 +50,7 @@ namespace AlgoApp.Views.Teacher
             if (!(e.Item is ChapterModel chapter))
                 return;
 
-            await Navigation.PushAsync(new QuestionListPage(chapter.Id));
+            await Navigation.PushAsync(new QuestionListPage(chapter.Id) { Title = chapter.Name });
         }
     }
 }

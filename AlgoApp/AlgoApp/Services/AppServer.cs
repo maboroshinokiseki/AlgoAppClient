@@ -52,7 +52,13 @@ namespace AlgoApp.Services
 
         public async Task<CommonListResultModel<ChapterModel>> GetChaperListAsync()
         {
-            return await QueryAsync<CommonListResultModel<ChapterModel>>(HttpMethod.Get, "Chapters");
+            var model = await QueryAsync<CommonListResultModel<ChapterModel>>(HttpMethod.Get, "Chapters");
+            foreach (var item in model.Items)
+            {
+                item.Name = $"第{item.Order}章 {item.Name}";
+            }
+
+            return model;
         }
 
         public async Task<CommonListResultModel<QuestionModel>> GetQuestionListAsync(int chapterId)
@@ -124,9 +130,9 @@ namespace AlgoApp.Services
 
         }
 
-        public async Task<AnswerResultModel> PostAnswerAsync(int questionId, int answerId)
+        public async Task<AnswerResultModel> PostAnswerAsync(int questionId, int answerId, bool isDailyPractice)
         {
-            var json = JsonConvert.SerializeObject(new { questionId, answerId });
+            var json = JsonConvert.SerializeObject(new { questionId, answerId, isDailyPractice });
             var result = await QueryAsync<AnswerResultModel>(HttpMethod.Post, "Answer", json);
 
             return result;
@@ -203,9 +209,61 @@ namespace AlgoApp.Services
             return await QueryAsync<QuestionModel>(HttpMethod.Get, $"Questions/{questionId}/{answerId}");
         }
 
-        public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestions(int classId)
+        public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionsByClass(int classId)
         {
             return await QueryAsync<CommonListResultModel<EasyToGetWrongQuestionModel>>(HttpMethod.Get, $"Questions/EasyToGetWrongQuestionsByClass/{classId}");
+        }
+
+        public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionsByQuestion(int questionId)
+        {
+            return await QueryAsync<CommonListResultModel<EasyToGetWrongQuestionModel>>(HttpMethod.Get, $"Questions/EasyToGetWrongQuestionsByQuestion/{questionId}");
+        }
+
+        public async Task<CommonResultModel> IsQuestionInBookmark(int questionId)
+        {
+            return await QueryAsync<CommonResultModel>(HttpMethod.Get, $"Bookmark/IsQuestionInBookmark/{questionId}");
+        }
+
+        public async Task<CommonResultModel> AddQuestionToBookmark(int questionId)
+        {
+            var json = JsonConvert.SerializeObject(new { questionId });
+            return await QueryAsync<CommonResultModel>(HttpMethod.Post, $"Bookmark/AddQuestionToBookmark", json);
+        }
+
+        public async Task<CommonResultModel> RemoveQuestionFromBookmark(int questionId)
+        {
+            return await QueryAsync<CommonResultModel>(HttpMethod.Delete, $"Bookmark/RemoveQuestionFromBookmark/{questionId}");
+        }
+
+        public async Task<CommonListResultModel<QuestionModel>> QuestionsInBookmark()
+        {
+            var result = await QueryAsync<CommonListResultModel<QuestionModel>>(HttpMethod.Get, $"Bookmark/Questions");
+            foreach (var item in result.Items)
+            {
+                item.ContentWithIndex = item.Content;
+            }
+
+            return result;
+        }
+
+        public async Task<QuestionModel> GetDailyPracticeQuestion()
+        {
+            return await QueryAsync<QuestionModel>(HttpMethod.Get, $"Questions/DailyPractice");
+        }
+
+        public async Task<QuestionModel> GetBreakThroughQuestion()
+        {
+            return await QueryAsync<QuestionModel>(HttpMethod.Get, $"Questions/BreakThrough");
+        }
+
+        public async Task<CommonListResultModel<ClassRoomModel>> SearchClassImNotIn(string searchText)
+        {
+            return await QueryAsync<CommonListResultModel<ClassRoomModel>>(HttpMethod.Get, $"ClassRoom/SearchClassImNotIn/{searchText}");
+        }
+
+        public async Task<CommonResultModel> JoinClassRomm(int classId)
+        {
+            return await QueryAsync<CommonResultModel>(HttpMethod.Get, $"ClassRoom/JoinClassRomm/{classId}");
         }
     }
 }

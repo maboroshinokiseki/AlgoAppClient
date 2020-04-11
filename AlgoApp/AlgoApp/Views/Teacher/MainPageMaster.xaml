@@ -7,10 +7,11 @@
              x:Class="AlgoApp.Views.Teacher.MainPageMaster"
              Title="Master">
     <StackLayout>
-        <ListView x:Name="MenuItemsListView"
-              SeparatorVisibility="None"
-              HasUnevenRows="true"
-              ItemsSource="{Binding MenuItems}">
+        <ListView SeparatorVisibility="None"
+                  HasUnevenRows="true"
+                  ItemTapped="ListView_ItemTapped"
+                  ItemsSource="{Binding Items}"
+                  SelectionMode="None">
             <ListView.Header>
                 <Grid BackgroundColor="#03A9F4">
                     <Grid.ColumnDefinitions>
@@ -37,7 +38,7 @@
                         <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand">
                             <Label VerticalOptions="FillAndExpand" 
                     VerticalTextAlignment="Center" 
-                    Text="{Binding Title}"
+                    Text="{Binding Title}" 
                     FontSize="24"/>
                         </StackLayout>
                     </ViewCell>

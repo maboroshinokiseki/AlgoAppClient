@@ -12,7 +12,9 @@ namespace AlgoApp.Views.Teacher
     public partial class WrongAnswerListPage : ContentPage
     {
         private readonly IAppServer appServer;
-        private readonly ViewModel VM;
+
+        public BaseListViewModel<EasyToGetWrongQuestionModel> VM { get; }
+
         private readonly Task<CommonListResultModel<EasyToGetWrongQuestionModel>> easyToGetWrongQuestionsTask;
 
         public WrongAnswerListPage()
@@ -23,8 +25,8 @@ namespace AlgoApp.Views.Teacher
         public WrongAnswerListPage(int classId) : this()
         {
             appServer = DependencyService.Get<IAppServer>();
-            VM = new ViewModel { Items = new ObservableCollection<EasyToGetWrongQuestionModel>() };
-            easyToGetWrongQuestionsTask = appServer.GetEasyToGetWrongQuestions(classId);
+            VM = new BaseListViewModel<EasyToGetWrongQuestionModel> { Items = new ObservableCollection<EasyToGetWrongQuestionModel>() };
+            easyToGetWrongQuestionsTask = appServer.GetEasyToGetWrongQuestionsByClass(classId);
             BindingContext = VM;
         }
 
@@ -43,15 +45,13 @@ namespace AlgoApp.Views.Teacher
                 VM.Items.Add(item);
             }
         }
-    }
 
-    public class ViewModel : BaseViewModel
-    {
-        private ObservableCollection<EasyToGetWrongQuestionModel> items;
-        public ObservableCollection<EasyToGetWrongQuestionModel> Items
+        private async void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            get => items;
-            set => SetValue(out items, value);
+            if (!(e.Item is EasyToGetWrongQuestionModel model))
+                return;
+
+            await Navigation.PushAsync(new WrongAnswerDetailTabbedPage(model.QuestionId));
         }
     }
 }

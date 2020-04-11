@@ -11,12 +11,12 @@
         <ToolbarItem Text="Add" IconImageSource="ic_action_add.png" Clicked="ToolbarItem_Clicked" />
     </ContentPage.ToolbarItems>
     
-    <ListView x:Name="MyListView"
-              ItemsSource="{Binding Items}"
+    <ListView ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"
               CachingStrategy="RecycleElement"
               SelectionMode="None"
-              HasUnevenRows="True">
+              HasUnevenRows="True"
+              IsRefreshing="{Binding IsBusy}">
 
         <ListView.ItemTemplate>
             <DataTemplate>

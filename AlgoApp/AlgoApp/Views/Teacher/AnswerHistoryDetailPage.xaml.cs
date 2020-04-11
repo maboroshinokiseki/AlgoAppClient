@@ -35,7 +35,7 @@ namespace AlgoApp.Views.Teacher
 
             AnswerListLabel.Text = string.Join("、", question.Options.Select(o => o.Content));
             CorrectAnswerLabel.Text = question.AnswerResult.CorrectAnswer;
-            AnalysisLabel.Text = question.AnswerResult.Analysis;
+            AnalysisLabel.Text = question.Analysis;
             YourAnswerLabel.Text = question.AnswerResult.UserAnswer;
             if (question.AnswerResult.Correct)
             {

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AlgoApp.Views.QuestionPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{Binding BookmarkText}" Command="{Binding BookmarkCommand}" />
+        <ToolbarItem Text="题目纠错" Command="{Binding BookmarkCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid>
+            <Grid Padding="20" IsVisible="{Binding HasMoreQuestions}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ScrollView Grid.Row="0" VerticalOptions="Start">
+                    <Label Text="{Binding QuestionContent}" />
+                </ScrollView>
+                <ListView Grid.Row="1" VerticalOptions="CenterAndExpand" IsVisible="{Binding ShowOptions}" ItemsSource="{Binding Items}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Button Text="{Binding Content}" Command="{Binding Path=BindingContext.PostAnswerCommand, Source={RelativeSource AncestorType={Type ContentPage}}}" CommandParameter="{Binding .}" />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <ScrollView Grid.Row="1" VerticalOptions="Start" IsVisible="{Binding ShowAnswers}">
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="答案选项：" />
+                            <Label Text="{Binding OptionsString}" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" IsVisible="{Binding HaveUserAnswer}">
+                            <Label Text="所选答案：" />
+                            <Label Text="{Binding UserAnswer}" TextColor="{Binding UserAnswerColor}" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="正确答案：" />
+                            <Label Text="{Binding CorrectAnswer}" />
+                        </StackLayout>
+                        <Label Text="解析：" />
+                        <Label Text="{Binding Analysis}"/>
+                    </StackLayout>
+                </ScrollView>
+                <Grid Grid.Row="2" IsVisible="{Binding IsinList}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Text="上一题" Command="{Binding PrevQuestionCommand}" />
+                    <Button Grid.Column="1" Text="下一题" Command="{Binding NextQuestionCommand}" />
+                </Grid>
+                <Button Grid.Row="2" IsVisible="{Binding IsInOneWayQuestMode}" Text="下一题" Command="{Binding NextQuestionCommand}" />
+            </Grid>
+            <Label Text="{Binding NoMoreQuestionText}" IsVisible="{Binding NoMoreQuestions}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

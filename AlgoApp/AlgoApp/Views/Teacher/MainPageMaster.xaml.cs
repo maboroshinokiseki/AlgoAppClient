@@ -10,20 +10,21 @@ namespace AlgoApp.Views.Teacher
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPageMaster : ContentPage
     {
-        public ListView ListView;
+        private readonly MasterDetailPage master;
 
-        public MainPageMaster()
+        private MainPageMaster()
         {
             InitializeComponent();
-
-            BindingContext = new MainPageMasterViewModel();
-            ListView = MenuItemsListView;
         }
 
-        class MainPageMasterViewModel : BaseViewModel
+        public MainPageMaster(MasterDetailPage master) : this()
         {
-            public ObservableCollection<MasterMenuItemModel> MenuItems { get; set; }
+            BindingContext = new MainPageMasterViewModel(master);
+            this.master = master;
+        }
 
+        class MainPageMasterViewModel : BaseListViewModel<MasterMenuItemModel>
+        {
             private string name;
             public string Name
             {
@@ -32,17 +33,34 @@ namespace AlgoApp.Views.Teacher
             }
 
 
-            public MainPageMasterViewModel()
+            public MainPageMasterViewModel(MasterDetailPage master)
             {
-                MenuItems = new ObservableCollection<MasterMenuItemModel>(new[]
+                var appServer = DependencyService.Get<IAppServer>();
+                Items = new ObservableCollection<MasterMenuItemModel>(new[]
                 {
-                    new MasterMenuItemModel { Id = 0, Title = "章節列表", TargetType = typeof(ChapterListPage) },
-                    new MasterMenuItemModel { Id = 0, Title = "班級", TargetType = typeof(ClassRoomListPage) },
-                    new MasterMenuItemModel { Id = 1, Title = "退出" },
+                    new MasterMenuItemModel { Id = 0, Title = "个人信息", Action = () => master.Detail = new NavigationPage(new ProfilePage(App.UserId, true)) },
+                    new MasterMenuItemModel { Id = 1, Title = "章節列表", Action = () => master.Detail = new NavigationPage(new ChapterListPage()) },
+                    new MasterMenuItemModel { Id = 2, Title = "收藏夹", Action = () => master.Detail = new NavigationPage(new QuestionListPage(0, true) { Title = "收藏夹" }) },
+                    new MasterMenuItemModel { Id = 3, Title = "班级列表", Action = () => master.Detail = new NavigationPage(new ClassRoomListPage()) },
+                    new MasterMenuItemModel { Id = 6, Title = "退出", Action = () => {
+                        appServer.Logout();
+                        Device.BeginInvokeOnMainThread(() => App.Current.MainPage = new NavigationPage(new LoginPage()));
+                    }},
                 });
 
-                var server = DependencyService.Get<IAppServer>();
-                server.GetCurrentUserAsync().ContinueWith(u => Name = u.Result.NickName);
+                appServer.GetCurrentUserAsync().ContinueWith(u => Name = u.Result.Nickname);
+            }
+        }
+
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (!(e.Item is MasterMenuItemModel item))
+                return;
+
+            master.IsPresented = false;
+            if (item.Action != null)
+            {
+                item.Action.Invoke();
             }
         }
     }

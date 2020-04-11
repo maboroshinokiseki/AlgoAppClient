@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace AlgoApp.Views.Teacher
@@ -13,8 +12,9 @@ namespace AlgoApp.Views.Teacher
     public partial class ClassRoomPage : ContentPage
     {
         private readonly IAppServer appServer;
-        private readonly Task<ClassRoomModel> classRommTask;
         private readonly int classId;
+        private ClassRoomModel classRoom;
+        private Action<object, EventArgs> lastSorting;
 
         public ViewModel VM { get; }
 
@@ -27,64 +27,55 @@ namespace AlgoApp.Views.Teacher
         {
             appServer = DependencyService.Get<IAppServer>();
 
-            classRommTask = appServer.ClassRoom(classId);
-
             VM = new ViewModel
             {
-                Items = new ObservableCollection<ListItemModel>(),
-
-                RemoveStudentCommand = new Command(async user =>
+                RemoveStudentCommand = new Command<ListItemModel>(async user =>
                 {
-                    var u = user as ListItemModel;
-                    await appServer.RemoveStudentFromClass(u.Id, classId);
-                    VM.Items.Remove(u);
+                    await appServer.RemoveStudentFromClass(user.Id, classId);
+                    VM.Items.Remove(user);
                 })
             };
-
             BindingContext = VM;
             this.classId = classId;
         }
 
-
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            if (VM.Items.Count != 0)
+
+            if (VM.Items != null && VM.AddedStudent == false)
             {
                 return;
             }
 
-            MyListView.IsRefreshing = true;
-            var classRoom = await classRommTask;
+            VM.Items = new ObservableCollection<ListItemModel>();
+            VM.IsBusy = true;
+            classRoom = await appServer.ClassRoom(classId);
 
             foreach (var item in classRoom.Students)
             {
                 VM.Items.Add(ObjectMapper.Map<ListItemModel>(item));
             }
-
-            MyListView.IsRefreshing = false;
+            lastSorting?.Invoke(null, null);
+            VM.IsBusy = false;
+            VM.AddedStudent = false;
         }
 
-        protected override void OnDisappearing()
+        public class ViewModel : CommonListViewViewModel<ListItemModel>
         {
-            base.OnDisappearing();
-            VM.Items.Clear();
-        }
-
-        public class ViewModel : BaseViewModel
-        {
-            private ObservableCollection<ListItemModel> items;
-            public ObservableCollection<ListItemModel> Items
-            {
-                get => items;
-                set => SetValue(out items, value);
-            }
             public Command RemoveStudentCommand { get; set; }
+            public bool AddedStudent { get; set; }
         }
 
         public class ListItemModel : UserModel
         {
-            public string Display { get; set; }
+            private string display;
+
+            public string Display
+            {
+                get => display;
+                set => display = value;
+            }
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -92,47 +83,29 @@ namespace AlgoApp.Views.Teacher
             if (!(e.Item is ListItemModel user))
                 return;
 
-            await Navigation.PushAsync(new StudentDetailTabbedPage(user.Id) { Title = user.NickName });
+            await Navigation.PushAsync(new StudentDetailTabbedPage(user.Id) { Title = user.Nickname });
         }
 
-        private async void DeletionToolbarItem_Clicked(object sender, System.EventArgs e)
+        private async void DeletionToolbarItem_Clicked(object sender, EventArgs e)
         {
-            var classRoom = await classRommTask;
             await appServer.DeleteClassRomm(classRoom.Id);
             await Navigation.PopAsync();
         }
 
-        private async void RenameToolbarItem_Clicked(object sender, System.EventArgs e)
+        private async void RenameToolbarItem_Clicked(object sender, EventArgs e)
         {
-            var classRoom = await classRommTask;
-            string name;
-            while (true)
+            string name = await Utilities.UIUtilities.DisplayPromptAsync(this, "更名", "请输入新名字", "请输入合法的名称");
+            if (name == null)
             {
-                name = await DisplayPromptAsync("班級名字", "", initialValue: classRoom.Name);
-                if (string.IsNullOrWhiteSpace(name))
-                {
-                    if (name != null)
-                    {
-                        await DisplayAlert("錯誤", "請輸入名字", "確認");
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else
-                {
-                    break;
-                }
+                return;
             }
 
             await appServer.RenameClassRomm(classRoom.Id, name);
         }
 
-        private async void AddStudentToolbarItem_Clicked(object sender, System.EventArgs e)
+        private async void AddStudentToolbarItem_Clicked(object sender, EventArgs e)
         {
-            var classRoom = await classRommTask;
-            await Navigation.PushAsync(new AddStudentToClassPage(classRoom.Id));
+            await Navigation.PushAsync(new AddStudentToClassPage(classRoom.Id, VM));
         }
 
         private async void ShowEasyToGetWrongQuestionsToolbarItem_Clicked(object sender, EventArgs e)
@@ -140,44 +113,52 @@ namespace AlgoApp.Views.Teacher
             await Navigation.PushAsync(new WrongAnswerListPage(classId));
         }
 
-        private void SortByNameAscToolbarItem_Clicked(object sender, System.EventArgs e)
+        private void SortByNameAscToolbarItem_Clicked(object sender, EventArgs e)
         {
-            SortItems(VM.Items.OrderBy(m => m.NickName), m => "");
+            lastSorting = SortByNameAscToolbarItem_Clicked;
+            SortItems(VM.Items.OrderBy(m => m.Nickname), m => "");
         }
 
-        private void SortByNameDesToolbarItem_Clicked(object sender, System.EventArgs e)
+        private void SortByNameDesToolbarItem_Clicked(object sender, EventArgs e)
         {
-            SortItems(VM.Items.OrderByDescending(m => m.NickName), m => "");
+            lastSorting = SortByNameDesToolbarItem_Clicked;
+            SortItems(VM.Items.OrderByDescending(m => m.Nickname), m => "");
         }
 
-        private void SortByCorrectRatioAscToolbarItem_Clicked(object sender, System.EventArgs e)
+        private void SortByCorrectRatioAscToolbarItem_Clicked(object sender, EventArgs e)
         {
-            SortItems(VM.Items.OrderBy(m => m.CorrectRatio).ThenBy(m => m.NickName), m => "正确率：" + m.CorrectRatio * 100 + "%");
+            lastSorting = SortByCorrectRatioAscToolbarItem_Clicked;
+            SortItems(VM.Items.OrderBy(m => m.CorrectRatio).ThenBy(m => m.Nickname), m => "正确率：" + m.CorrectRatio.ToString("P"));
         }
 
         private void SortByCorrectRatioDesToolbarItem_Clicked(object sender, EventArgs e)
         {
-            SortItems(VM.Items.OrderByDescending(m => m.CorrectRatio).ThenBy(m => m.NickName), m => "正确率：" + m.CorrectRatio * 100 + "%");
+            lastSorting = SortByCorrectRatioDesToolbarItem_Clicked;
+            SortItems(VM.Items.OrderByDescending(m => m.CorrectRatio).ThenBy(m => m.Nickname), m => "正确率：" + m.CorrectRatio.ToString("P"));
         }
 
         private void SortByDoneCountAscToolbarItem_Clicked(object sender, EventArgs e)
         {
-            SortItems(VM.Items.OrderBy(m => m.DoneQuestionCount).ThenBy(m => m.NickName), m => "做题数：" + m.DoneQuestionCount);
+            lastSorting = SortByDoneCountAscToolbarItem_Clicked;
+            SortItems(VM.Items.OrderBy(m => m.DoneQuestionCount).ThenBy(m => m.Nickname), m => "做题数：" + m.DoneQuestionCount);
         }
 
         private void SortByDoneCountDesToolbarItem_Clicked(object sender, EventArgs e)
         {
-            SortItems(VM.Items.OrderByDescending(m => m.DoneQuestionCount).ThenBy(m => m.NickName), m => "做题数：" + m.DoneQuestionCount);
+            lastSorting = SortByDoneCountDesToolbarItem_Clicked;
+            SortItems(VM.Items.OrderByDescending(m => m.DoneQuestionCount).ThenBy(m => m.Nickname), m => "做题数：" + m.DoneQuestionCount);
         }
 
         private void SortByPointsAscToolbarItem_Clicked(object sender, EventArgs e)
         {
-            SortItems(VM.Items.OrderBy(m => m.Points).ThenBy(m => m.NickName), m => "积分：" + m.Points);
+            lastSorting = SortByPointsAscToolbarItem_Clicked;
+            SortItems(VM.Items.OrderBy(m => m.Points).ThenBy(m => m.Nickname), m => "积分：" + m.Points);
         }
 
         private void SortByPointsDesToolbarItem_Clicked(object sender, EventArgs e)
         {
-            SortItems(VM.Items.OrderByDescending(m => m.Points).ThenBy(m => m.NickName), m => "积分：" + m.Points);
+            lastSorting = SortByPointsDesToolbarItem_Clicked;
+            SortItems(VM.Items.OrderByDescending(m => m.Points).ThenBy(m => m.Nickname), m => "积分：" + m.Points);
         }
 
         private void SortItems(IEnumerable<ListItemModel> newItems, Func<ListItemModel, string> displayFunc)
@@ -187,7 +168,6 @@ namespace AlgoApp.Views.Teacher
             {
                 item.Display = displayFunc.Invoke(item);
             }
-
             VM.Items = newitems;
         }
     }

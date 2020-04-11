@@ -13,7 +13,7 @@ namespace AlgoApp.Services
         Task<CommonListResultModel<QuestionModel>> GetQuestionListAsync(int chapterId);
         Task<QuestionModel> GetQuestionAsync(int questionId);
         Task<QuestionModel> GetQuestionWithAnswerAsync(int questionId, int answerId);
-        Task<AnswerResultModel> PostAnswerAsync(int questionId, int answerId);
+        Task<AnswerResultModel> PostAnswerAsync(int questionId, int answerId, bool isDailyPractice);
         void Logout();
         Task<CommonListResultModel<ClassRoomModel>> MyClassRooms();
         Task<ClassRoomModel> ClassRoom(int id);
@@ -22,9 +22,18 @@ namespace AlgoApp.Services
         Task<CommonResultModel> DeleteClassRomm(int id);
         Task<CommonResultModel> RenameClassRomm(int id, string newName);
         Task<CommonListResultModel<UserModel>> SearchStudentsNotInClass(int excludeClassId, string name);
+        Task<CommonListResultModel<ClassRoomModel>> SearchClassImNotIn(string searchText);
+        Task<CommonResultModel> JoinClassRomm(int classId);
         Task<CommonResultModel> AddStudentToClass(int studentId, int classId);
         Task<CommonResultModel> RemoveStudentFromClass(int studentId, int classId);
         Task<CommonListResultModel<HistoryItemModel>> GetUserAnswerHistory(int studentId);
-        Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestions(int classId);
+        Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionsByClass(int classId);
+        Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionsByQuestion(int questionId);
+        Task<CommonResultModel> IsQuestionInBookmark(int questionId);
+        Task<CommonResultModel> AddQuestionToBookmark(int questionId);
+        Task<CommonResultModel> RemoveQuestionFromBookmark(int questionId);
+        Task<CommonListResultModel<QuestionModel>> QuestionsInBookmark();
+        Task<QuestionModel> GetDailyPracticeQuestion();
+        Task<QuestionModel> GetBreakThroughQuestion();
     }
 }

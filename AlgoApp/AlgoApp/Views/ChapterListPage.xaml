@@ -4,20 +4,16 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AlgoApp.Views.Student.ClassRoomPage"
-             x:Name="RootPage">
-    <ListView x:Name="MyListView"
-              ItemsSource="{Binding Items}"
+             x:Class="AlgoApp.Views.ChapterListPage"
+             Title="章节列表">
+    <ListView ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"
               CachingStrategy="RecycleElement"
-              SelectionMode="None">
+              SelectionMode="None"
+              IsRefreshing="{Binding IsBusy}">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding NickName}">
-                    <TextCell.ContextActions>
-                        <MenuItem Text="移除" Command="{Binding RemoveStudentCommand, Source={x:Reference RootPage}}" CommandParameter="{Binding .}" IsDestructive="True" />
-                    </TextCell.ContextActions>
-                </TextCell>
+                <TextCell Text="{Binding Name}" TextColor="Black" />
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>

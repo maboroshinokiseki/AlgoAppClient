@@ -3,26 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converter ="clr-namespace:AlgoApp.Converters"
              mc:Ignorable="d"
-             x:Class="AlgoApp.Views.Student.ClassRoomListPage"
-             Title="班级列表">
-
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" IconImageSource="ic_action_add.png" Clicked="ToolbarItem_Clicked" />
-    </ContentPage.ToolbarItems>
-    
+             x:Class="AlgoApp.Views.QuestionListPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:QuestionStatusToColorConverter x:Key="QuestionStatusToColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ListView ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"
               CachingStrategy="RecycleElement"
               SelectionMode="None"
-              HasUnevenRows="True"
               IsRefreshing="{Binding IsBusy}">
-
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding Name}" Detail="{Binding Teacher.Nickname, StringFormat='教师：{0}'}" TextColor="Black" />
+                <TextCell Text="{Binding ContentWithIndex}" TextColor="{Binding Status, Converter={StaticResource QuestionStatusToColorConverter}}" />
             </DataTemplate>
         </ListView.ItemTemplate>
-
     </ListView>
 </ContentPage>

@@ -1,7 +1,6 @@
 ﻿using AlgoApp.Models.Data;
 using AlgoApp.Services;
 using System;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

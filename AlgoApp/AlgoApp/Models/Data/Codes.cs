@@ -7,7 +7,10 @@
         LoginFailed,
         RegistrationFailed,
         TimeOut,
-        UserAlreadyInClass,
+        RecordExists,
         NoRecord,
+        QuestionInBookmark,
+        QuestionNotInBookmark,
+        NoMoreQuestions,
     }
 }

@@ -4,18 +4,6 @@
                   xmlns:d="http://xamarin.com/schemas/2014/forms/design"
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                   mc:Ignorable="d"
-                  x:Class="AlgoApp.Views.Teacher.MainPage"
-                  xmlns:pages="clr-namespace:AlgoApp.Views.Teacher"
-                  Title="主页面">
-    
-    <MasterDetailPage.Master>
-        <pages:MainPageMaster x:Name="MasterPage" />
-    </MasterDetailPage.Master>
-    <MasterDetailPage.Detail>
-        <NavigationPage>
-            <x:Arguments>
-                <pages:ChapterListPage />
-            </x:Arguments>
-        </NavigationPage>
-    </MasterDetailPage.Detail>
+                  x:Class="AlgoApp.Views.Teacher.MainPage">
+
 </MasterDetailPage>

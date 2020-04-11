@@ -1,11 +1,9 @@
 ﻿using AlgoApp.Models.Data;
 using AlgoApp.Services;
+using AlgoApp.ViewModels;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,47 +13,32 @@ namespace AlgoApp.Views.Student
     public partial class ClassRoomListPage : ContentPage
     {
         private readonly IAppServer appServer;
-        public ObservableCollection<ClassRoomModel> Items { get; set; }
+
+        internal CommonListViewViewModel<ClassRoomModel> VM { get; }
 
         public ClassRoomListPage()
         {
             InitializeComponent();
 
             appServer = DependencyService.Get<IAppServer>();
-
-            Items = new ObservableCollection<ClassRoomModel>();
-
-            MyListView.ItemsSource = Items;
+            VM = new CommonListViewViewModel<ClassRoomModel>();
+            BindingContext = VM;
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            if (Items.Count != 0)
-            {
-                return;
-            }
-
-            MyListView.IsRefreshing = true;
+            VM.IsBusy = true;
             var classRooms = await appServer.MyClassRooms();
             if (classRooms.Items == null)
             {
-                MyListView.IsRefreshing = false;
+                VM.IsBusy = false;
                 return;
             }
 
-            foreach (var item in classRooms.Items)
-            {
-                Items.Add(item);
-            }
-            await Task.Delay(1000);
-            MyListView.IsRefreshing = false;
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            Items.Clear();
+            VM.Items = new ObservableCollection<ClassRoomModel>(classRooms.Items);
+            await Task.Delay(500);
+            VM.IsBusy = false;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -63,35 +46,12 @@ namespace AlgoApp.Views.Student
             if (!(e.Item is ClassRoomModel classRoom))
                 return;
 
-            await Navigation.PushAsync(new ClassRoomPage(classRoom.Id));
-
+            //await Navigation.PushAsync(new ClassRoomPage(classRoom.Id) { Title = classRoom.Name });
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
-            string name;
-            while (true)
-            {
-                name = await DisplayPromptAsync("班級名字", "");
-                if (string.IsNullOrWhiteSpace(name))
-                {
-                    if (name != null)
-                    {
-                        await DisplayAlert("錯誤", "請輸入名字", "確認");
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            var newClass = await appServer.AddClassRoom(name.Trim());
-            Items.Add(newClass);
+            await Navigation.PushAsync(new JoinClassPage());
         }
     }
 }

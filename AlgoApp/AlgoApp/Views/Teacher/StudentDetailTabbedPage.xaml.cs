@@ -13,7 +13,7 @@ namespace AlgoApp.Views.Teacher
 
         public StudentDetailTabbedPage(int id) : this()
         {
-            this.Children.Add(new StudentProfilePage(id));
+            this.Children.Add(new ProfilePage(id) { Title = "用户信息" });
             this.Children.Add(new AnswerHistoryPage(id));
         }
     }

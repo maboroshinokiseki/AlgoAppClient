@@ -8,10 +8,11 @@
     <ContentPage.Content>
         <ListView ItemsSource="{Binding Items}"
                   CachingStrategy="RecycleElement"
-                  SelectionMode="None">
+                  SelectionMode="None"
+                  ItemTapped="ListView_ItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Content}" Detail="{Binding ErrorCount, StringFormat='做错次数：{0}' }" />
+                    <TextCell Text="{Binding Content}" Detail="{Binding ErrorCount, StringFormat='做错次数：{0}' }" TextColor="Black" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

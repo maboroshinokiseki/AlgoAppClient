@@ -1,8 +1,8 @@
 ﻿using AlgoApp.Models.Data;
 using AlgoApp.Services;
-using System;
+using AlgoApp.ViewModels;
 using System.Collections.ObjectModel;
-
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,44 +11,40 @@ namespace AlgoApp.Views.Teacher
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddStudentToClassPage : ContentPage
     {
-        private readonly int classId;
         private readonly IAppServer appServer;
-        public ObservableCollection<UserModel> Items { get; set; }
-        public Command AddStudentCommand { get; }
+
+        private ViewModel VM { get; }
 
         public AddStudentToClassPage()
         {
             InitializeComponent();
         }
 
-        public AddStudentToClassPage(int classId) : this()
+        public AddStudentToClassPage(int classId, ClassRoomPage.ViewModel model) : this()
         {
-            this.classId = classId;
             this.appServer = DependencyService.Get<IAppServer>();
-            Items = new ObservableCollection<UserModel>();
-            this.BindingContext = this;
+            this.VM = new ViewModel();
 
-            AddStudentCommand = new Command(async item =>
+            VM.AddStudentCommand = new Command<ListItem>(async item =>
             {
-                var u = item as UserModel;
-                await appServer.AddStudentToClass(u.Id, classId);
+                await appServer.AddStudentToClass(item.Id, classId);
+                item.IsAdded = true;
+                model.AddedStudent = true;
             });
-        }
 
-        private async void SearchBar_SearchButtonPressed(object sender, EventArgs e)
-        {
-            Items.Clear();
-            var users = await appServer.SearchStudentsNotInClass(classId, nameSearchBar.Text);
-            if (users.Items.Count == 0)
+            VM.SearchStudentCommand = new Command<string>(async searchText =>
             {
-                await DisplayAlert("", "未找到任何用户", "OK");
-                return;
-            }
+                var users = await appServer.SearchStudentsNotInClass(classId, searchText);
+                if (users.Items.Count == 0)
+                {
+                    await DisplayAlert("", "未找到任何用户", "OK");
+                    return;
+                }
 
-            foreach (var u in users.Items)
-            {
-                Items.Add(u);
-            }
+                VM.Items = new ObservableCollection<ListItem>(users.Items.Select(u => new ListItem { Id = u.Id, Text = u.Nickname, IsAdded = false }));
+            });
+
+            this.BindingContext = this.VM;
         }
 
         private async void MyListView_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -59,12 +55,23 @@ namespace AlgoApp.Views.Teacher
             await Navigation.PushAsync(new StudentDetailTabbedPage(user.Id));
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
+        class ListItem : BaseViewModel
         {
-            var b = sender as ImageButton;
-            var p = b.Parent as StackLayout;
-            b.IsVisible = false;
-            p.Children[2].IsVisible = true;
+            private bool isAdded;
+
+            public int Id { get; set; }
+            public string Text { get; set; }
+            public bool IsAdded
+            {
+                get => isAdded;
+                set => SetValue(out isAdded, value);
+            }
+        }
+
+        class ViewModel : CommonListViewViewModel<ListItem>
+        {
+            public Command<ListItem> AddStudentCommand { get; set; }
+            public Command<string> SearchStudentCommand { get; set; }
         }
     }
 }

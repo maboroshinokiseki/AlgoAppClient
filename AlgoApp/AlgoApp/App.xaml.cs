@@ -8,6 +8,7 @@ namespace AlgoApp
     public partial class App : Application
     {
         public static int UserId { get; set; }
+        public static UserRole Role { get; set; }
         public App()
         {
             InitializeComponent();
@@ -22,6 +23,7 @@ namespace AlgoApp
             if (res.Code == Codes.None)
             {
                 UserId = res.Id;
+                Role = res.Role;
                 if (res.Role == UserRole.Student)
                 {
                     MainPage = new Views.Student.MainPage();

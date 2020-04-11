@@ -5,8 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="AlgoApp.Views.Teacher.ClassRoomPage"
-             x:Name="RootPage"
-             Title="班级页面">
+             Title="班级页面"
+             x:Name="RootPage">
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="删除" IconImageSource="ic_action_delete.png" Order="Secondary" Clicked="DeletionToolbarItem_Clicked" />
@@ -22,21 +22,21 @@
         <ToolbarItem Text="按积分排序↑" Order="Secondary" Clicked="SortByPointsAscToolbarItem_Clicked" />
         <ToolbarItem Text="按积分排序↓" Order="Secondary" Clicked="SortByPointsDesToolbarItem_Clicked" />
     </ContentPage.ToolbarItems>
-    <ListView x:Name="MyListView"
-              ItemsSource="{Binding Items}"
+    <ListView ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"
               CachingStrategy="RecycleElement"
               SelectionMode="None"
+              IsRefreshing="{Binding IsBusy}"
               Margin="20,0">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
                     <StackLayout Orientation="Horizontal">
-                        <Label Text="{Binding NickName}" HorizontalOptions="StartAndExpand" />
+                        <Label Text="{Binding Nickname}" HorizontalOptions="StartAndExpand" />
                         <Label Text="{Binding Display}" WidthRequest="100" />
                     </StackLayout>
                     <ViewCell.ContextActions>
-                        <MenuItem Text="移除" Command="{Binding RemoveStudentCommand, Source={x:Reference RootPage}}" CommandParameter="{Binding .}" IsDestructive="True" />
+                        <MenuItem Text="移除" Command="{Binding Path=BindingContext.RemoveStudentCommand, Source={Reference RootPage}}" CommandParameter="{Binding .}" IsDestructive="True" />
                     </ViewCell.ContextActions>
                 </ViewCell>
             </DataTemplate>

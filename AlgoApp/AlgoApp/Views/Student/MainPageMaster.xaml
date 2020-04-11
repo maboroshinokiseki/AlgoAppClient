@@ -7,10 +7,11 @@
              x:Class="AlgoApp.Views.Student.MainPageMaster"
              Title="Master">
     <StackLayout>
-        <ListView x:Name="MenuItemsListView"
-              SeparatorVisibility="None"
-              HasUnevenRows="true"
-              ItemsSource="{Binding MenuItems}">
+        <ListView SeparatorVisibility="None"
+                  HasUnevenRows="true"
+                  ItemTapped="ListView_ItemTapped"
+                  ItemsSource="{Binding Items}"
+                  SelectionMode="None">
             <ListView.Header>
                 <Grid BackgroundColor="#03A9F4">
                     <Grid.ColumnDefinitions>

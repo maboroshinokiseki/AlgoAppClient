@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -17,32 +17,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Student\ClassRoomListPage.xaml.cs">
+    <Compile Update="Views\QuestionPage.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
-    <Compile Update="Views\Student\ClassRoomPage.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Student\QuestionListPage.xaml.cs">
+    <Compile Update="Views\QuestionListPage.xaml.cs">
       <DependentUpon>QuestionListPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Student\QuestionPage.xaml.cs">
-      <DependentUpon>QuestionPage.xaml</DependentUpon>
+    <Compile Update="Views\Student\JoinClassPage.xaml.cs">
+      <DependentUpon>JoinClassPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Student\ClassRoomListPage.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="Views\Teacher\AnswerHistoryDetailPage.xaml.cs">
       <DependentUpon>AnswerHistoryDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Teacher\ClassRoomPage.xaml.cs">
       <DependentUpon>ClassRoomPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Teacher\ChapterListPage.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Teacher\QuestionListPage.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Teacher\QuestionPage.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -53,10 +44,13 @@
     <EmbeddedResource Update="Views\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\ProfilePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\RegisterPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Student\ChapterListPage.xaml">
+    <EmbeddedResource Update="Views\ChapterListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Student\MainPage.xaml">
@@ -65,10 +59,7 @@
     <EmbeddedResource Update="Views\Student\MainPageMaster.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Student\QuestionListPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Student\QuestionPage.xaml">
+    <EmbeddedResource Update="Views\QuestionListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Teacher\AddStudentToClassPage.xaml">
@@ -89,16 +80,16 @@
     <EmbeddedResource Update="Views\Teacher\MainPageMaster.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Teacher\ProfilePage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Views\Teacher\StudentDetailTabbedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Teacher\StudentProfilePage.xaml">
+    <EmbeddedResource Update="Views\Teacher\WrongAnswerDetailTabbedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Teacher\WrongAnswerListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Teacher\WrongAnswerUserListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

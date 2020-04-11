@@ -4,25 +4,23 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AlgoApp.Views.Student.ClassRoomListPage"
-             Title="班级列表">
+             x:Class="AlgoApp.Views.ProfilePage">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" IconImageSource="ic_action_add.png" Clicked="ToolbarItem_Clicked" />
-    </ContentPage.ToolbarItems>
-    
     <ListView ItemsSource="{Binding Items}"
-              ItemTapped="Handle_ItemTapped"
+              ItemTapped="ListView_ItemTapped"
               CachingStrategy="RecycleElement"
               SelectionMode="None"
-              HasUnevenRows="True"
               IsRefreshing="{Binding IsBusy}">
-
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding Name}" Detail="{Binding Teacher.Nickname, StringFormat='教师：{0}'}" TextColor="Black" />
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="20,0">
+                        <Label Text="{Binding Name, StringFormat='{0}:'}"  HorizontalOptions="StartAndExpand" FontSize="Large" />
+                        <Label FontSize="Large" Text="{Binding Value}" />
+                    </StackLayout>
+                </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
-
     </ListView>
+
 </ContentPage>

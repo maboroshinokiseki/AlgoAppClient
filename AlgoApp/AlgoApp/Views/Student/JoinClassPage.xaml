@@ -5,17 +5,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:converter="clr-namespace:AlgoApp.Converters"
              mc:Ignorable="d"
-             x:Class="AlgoApp.Views.Teacher.AddStudentToClassPage"
-             Title="添加学生">
+             x:Class="AlgoApp.Views.Student.JoinClassPage"
+             Title="加入班级">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout>
-        <SearchBar Placeholder="学生名字" SearchCommand="{Binding SearchStudentCommand}" SearchCommandParameter="{Binding Text, Source={RelativeSource Self}}"/>
+        <SearchBar Placeholder="班级名称、教师名字" SearchCommand="{Binding SearchClassCommand}" SearchCommandParameter="{Binding Text, Source={RelativeSource Self}}"/>
         <ListView ItemsSource="{Binding Items}"
-                  ItemTapped="MyListView_ItemTapped"
                   CachingStrategy="RecycleElement"
                   SelectionMode="None"
                   HasUnevenRows="True"
@@ -26,7 +25,7 @@
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
                             <Label HorizontalOptions="StartAndExpand" Text="{Binding Text}" VerticalTextAlignment="Center" />
-                            <ImageButton Source="ic_action_add_green.png" BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40" Command="{Binding BindingContext.AddStudentCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}" CommandParameter="{Binding .}" IsVisible="{Binding IsAdded, Converter={StaticResource InverseBooleanConverter}}" />
+                            <ImageButton Source="ic_action_add_green.png" BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40" Command="{Binding BindingContext.JoinClassCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}" CommandParameter="{Binding .}" IsVisible="{Binding IsAdded, Converter={StaticResource InverseBooleanConverter}}" />
                             <Image Source="ic_action_check.png" BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40" IsVisible="{Binding IsAdded}" />
                         </StackLayout>
                     </ViewCell>
