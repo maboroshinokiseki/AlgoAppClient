@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AlgoApp.Views.Student.ClassRoomPage"
+             Title="班级页面"
+             x:Name="RootPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="按名称排序↑" Order="Secondary" Clicked="SortByNameAscToolbarItem_Clicked" />
+        <ToolbarItem Text="按名称排序↓" Order="Secondary" Clicked="SortByNameDesToolbarItem_Clicked" />
+        <ToolbarItem Text="按正确率排序↑" Order="Secondary" Clicked="SortByCorrectRatioAscToolbarItem_Clicked" />
+        <ToolbarItem Text="按正确率排序↓" Order="Secondary" Clicked="SortByCorrectRatioDesToolbarItem_Clicked" />
+        <ToolbarItem Text="按做题量排序↑" Order="Secondary" Clicked="SortByDoneCountAscToolbarItem_Clicked" />
+        <ToolbarItem Text="按做题量排序↓" Order="Secondary" Clicked="SortByDoneCountDesToolbarItem_Clicked" />
+        <ToolbarItem Text="按积分排序↑" Order="Secondary" Clicked="SortByPointsAscToolbarItem_Clicked" />
+        <ToolbarItem Text="按积分排序↓" Order="Secondary" Clicked="SortByPointsDesToolbarItem_Clicked" />
+    </ContentPage.ToolbarItems>
+    <ListView ItemsSource="{Binding Items}"
+              ItemTapped="Handle_ItemTapped"
+              CachingStrategy="RecycleElement"
+              SelectionMode="None"
+              IsRefreshing="{Binding IsBusy}"
+              Margin="20,0">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{Binding Nickname}" HorizontalOptions="StartAndExpand" />
+                        <Label Text="{Binding Display}" WidthRequest="100" />
+                    </StackLayout>
+                    <ViewCell.ContextActions>
+                        <MenuItem Text="移除" Command="{Binding Path=BindingContext.RemoveStudentCommand, Source={Reference RootPage}}" CommandParameter="{Binding .}" IsDestructive="True" />
+                    </ViewCell.ContextActions>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>

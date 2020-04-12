@@ -12,15 +12,39 @@ namespace AlgoApp.Views
         private readonly CommonListViewViewModel<ChapterModel> VM;
         private readonly IAppServer appServer;
         private readonly Task<CommonListResultModel<ChapterModel>> chaptersTask;
+        private PageType pageType;
+        private int uid;
 
-        public ChapterListPage()
+        private ChapterListPage()
         {
             InitializeComponent();
 
             appServer = DependencyService.Get<IAppServer>();
             VM = new CommonListViewViewModel<ChapterModel>();
             BindingContext = VM;
-            chaptersTask = appServer.GetChaperListAsync();
+        }
+
+        public ChapterListPage(PageType pageType = PageType.Normal, int uid = 0) : this()
+        {
+            this.pageType = pageType;
+            this.uid = uid;
+            switch (pageType)
+            {
+                case PageType.Normal:
+                    chaptersTask = appServer.GetChaperListAsync();
+                    break;
+                case PageType.AnswerHistory:
+                    chaptersTask = appServer.GetUserAnswerHistoryChapters(uid);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public enum PageType
+        {
+            Normal,
+            AnswerHistory,
         }
 
         protected override async void OnAppearing()
@@ -49,8 +73,17 @@ namespace AlgoApp.Views
         {
             if (!(e.Item is ChapterModel chapter))
                 return;
-
-            await Navigation.PushAsync(new QuestionListPage(chapter.Id) { Title = chapter.Name });
+            switch (pageType)
+            {
+                case PageType.Normal:
+                    await Navigation.PushAsync(new QuestionListPage(chapter.Id) { Title = chapter.Name });
+                    break;
+                case PageType.AnswerHistory:
+                    await Navigation.PushAsync(new AnswerHistoryListPage(uid, chapter.Id) { Title = chapter.Name });
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

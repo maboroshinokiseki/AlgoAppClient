@@ -44,6 +44,7 @@ namespace AlgoApp.Views.Student
                     new MasterMenuItemModel { Id = 3, Title = "班级列表", Action = () => master.Detail = new NavigationPage(new ClassRoomListPage()) },
                     new MasterMenuItemModel { Id = 4, Title = "每日一练", Action = () => master.Detail = new NavigationPage(new QuestionPage(0, pageType: QuestionPage.PageType.DailyPractice) { Title = "每日一练" }) },
                     new MasterMenuItemModel { Id = 5, Title = "闯关答题", Action = () => master.Detail = new NavigationPage(new QuestionPage(0, pageType: QuestionPage.PageType.BreakThroughMode) { Title = "闯关答题" }) },
+                    new MasterMenuItemModel { Id = 5, Title = "做题记录", Action = () => master.Detail = new NavigationPage(new ChapterListPage(pageType: ChapterListPage.PageType.AnswerHistory, App.UserId) { Title = "做题记录" }) },
                     new MasterMenuItemModel { Id = 6, Title = "退出", Action = () => {
                         appServer.Logout();
                         Device.BeginInvokeOnMainThread(() => App.Current.MainPage = new NavigationPage(new LoginPage()));

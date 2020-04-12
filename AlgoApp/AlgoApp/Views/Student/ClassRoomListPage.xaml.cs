@@ -46,7 +46,7 @@ namespace AlgoApp.Views.Student
             if (!(e.Item is ClassRoomModel classRoom))
                 return;
 
-            //await Navigation.PushAsync(new ClassRoomPage(classRoom.Id) { Title = classRoom.Name });
+            await Navigation.PushAsync(new ClassRoomPage(classRoom.Id) { Title = classRoom.Name });
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)

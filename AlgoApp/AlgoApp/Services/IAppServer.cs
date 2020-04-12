@@ -26,7 +26,8 @@ namespace AlgoApp.Services
         Task<CommonResultModel> JoinClassRomm(int classId);
         Task<CommonResultModel> AddStudentToClass(int studentId, int classId);
         Task<CommonResultModel> RemoveStudentFromClass(int studentId, int classId);
-        Task<CommonListResultModel<HistoryItemModel>> GetUserAnswerHistory(int studentId);
+        Task<CommonListResultModel<HistoryItemModel>> GetUserAnswerHistory(int studentId, int chapterId);
+        Task<CommonListResultModel<ChapterModel>> GetUserAnswerHistoryChapters(int studentId);
         Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionsByClass(int classId);
         Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionsByQuestion(int questionId);
         Task<CommonResultModel> IsQuestionInBookmark(int questionId);

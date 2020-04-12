@@ -14,7 +14,7 @@ namespace AlgoApp.Views.Teacher
         public StudentDetailTabbedPage(int id) : this()
         {
             this.Children.Add(new ProfilePage(id) { Title = "用户信息" });
-            this.Children.Add(new AnswerHistoryPage(id));
+            this.Children.Add(new ChapterListPage(ChapterListPage.PageType.AnswerHistory, id) { Title = "答题历史" });
         }
     }
 }

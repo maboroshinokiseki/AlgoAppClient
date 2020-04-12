@@ -44,9 +44,19 @@ namespace AlgoApp.Views
             {
                 VM.IsinList = true;
                 VM.CurrentIndex = questionIds.IndexOf(questionId);
-                VM.PrevQuestionCommand = new Command(async () => await DisplayQuestion(questionIds[--VM.CurrentIndex]), () => VM.CurrentIndex != 0);
-                VM.NextQuestionCommand = new Command(async () => await DisplayQuestion(questionIds[++VM.CurrentIndex]), () => VM.CurrentIndex != questionIds.Count - 1);
+                
+                if (answerIds != null)
+                {
+                    VM.PrevQuestionCommand = new Command(async () => await DisplayQuestion(questionIds[--VM.CurrentIndex], answerIds[VM.CurrentIndex]), () => VM.CurrentIndex != 0);
+                    VM.NextQuestionCommand = new Command(async () => await DisplayQuestion(questionIds[++VM.CurrentIndex], answerIds[VM.CurrentIndex]), () => VM.CurrentIndex != questionIds.Count - 1);
+                }
+                else
+                {
+                    VM.PrevQuestionCommand = new Command(async () => await DisplayQuestion(questionIds[--VM.CurrentIndex]), () => VM.CurrentIndex != 0);
+                    VM.NextQuestionCommand = new Command(async () => await DisplayQuestion(questionIds[++VM.CurrentIndex]), () => VM.CurrentIndex != questionIds.Count - 1);
+                }
             }
+
             if (pageType == PageType.DailyPractice)
             {
                 VM.PostAnswerCommand = new Command<QuestionModel.Option>(async o =>
@@ -94,14 +104,21 @@ namespace AlgoApp.Views
         {
             base.OnAppearing();
 
-            await DisplayQuestion(questionId, pageType: this.pageType);
+            await DisplayQuestion(questionId, answerId, pageType);
         }
 
         private async Task DisplayQuestion(int questionId, int answerId = 0, PageType pageType = PageType.Normal)
         {
             if (pageType == PageType.Normal)
             {
-                question = await appServer.GetQuestionAsync(questionId);
+                if (answerId == 0)
+                {
+                    question = await appServer.GetQuestionAsync(questionId);
+                }
+                else
+                {
+                    question = await appServer.GetQuestionWithAnswerAsync(questionId, answerId);
+                }
 
                 VM.ShowAnswers = false;
                 VM.ShowOptions = false;

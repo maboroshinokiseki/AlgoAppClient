@@ -4,7 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AlgoApp.Views.Teacher.AnswerHistoryPage"
+             x:Class="AlgoApp.Views.AnswerHistoryListPage"
              Title="答题历史">
 
     <ListView x:Name="MyListView"

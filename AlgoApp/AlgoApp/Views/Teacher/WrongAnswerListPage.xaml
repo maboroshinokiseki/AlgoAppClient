@@ -12,7 +12,7 @@
                   ItemTapped="ListView_ItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Content}" Detail="{Binding ErrorCount, StringFormat='做错次数：{0}' }" TextColor="Black" />
+                    <TextCell Text="{Binding Content}" Detail="{Binding ErrorRatio, StringFormat='错题率：{0:P}' }" TextColor="Black" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

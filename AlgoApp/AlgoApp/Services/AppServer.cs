@@ -199,9 +199,9 @@ namespace AlgoApp.Services
             return await QueryAsync<CommonResultModel>(HttpMethod.Post, $"ClassRoom/RemoveStudentFromClass", json);
         }
 
-        public async Task<CommonListResultModel<HistoryItemModel>> GetUserAnswerHistory(int studentId)
+        public async Task<CommonListResultModel<HistoryItemModel>> GetUserAnswerHistory(int studentId, int chapterId)
         {
-            return await QueryAsync<CommonListResultModel<HistoryItemModel>>(HttpMethod.Get, $"Answer/histories/{studentId}");
+            return await QueryAsync<CommonListResultModel<HistoryItemModel>>(HttpMethod.Get, $"Answer/{studentId}/historyQuestions/{chapterId}");
         }
 
         public async Task<QuestionModel> GetQuestionWithAnswerAsync(int questionId, int answerId)
@@ -264,6 +264,11 @@ namespace AlgoApp.Services
         public async Task<CommonResultModel> JoinClassRomm(int classId)
         {
             return await QueryAsync<CommonResultModel>(HttpMethod.Get, $"ClassRoom/JoinClassRomm/{classId}");
+        }
+
+        public async Task<CommonListResultModel<ChapterModel>> GetUserAnswerHistoryChapters(int studentId)
+        {
+            return await QueryAsync<CommonListResultModel<ChapterModel>>(HttpMethod.Get, $"Answer/{studentId}/historyChapters");
         }
     }
 }

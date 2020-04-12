@@ -1,11 +1,7 @@
 ﻿using AlgoApp.Models.Data;
 using AlgoApp.Services;
 using AlgoApp.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -26,10 +22,10 @@ namespace AlgoApp.Views.Teacher
             InitializeComponent();
         }
 
-        public WrongAnswerUserListPage(int questionId):this()
+        public WrongAnswerUserListPage(int questionId) : this()
         {
             appServer = DependencyService.Get<IAppServer>();
-            VM = new BaseListViewModel<EasyToGetWrongQuestionModel> ();
+            VM = new BaseListViewModel<EasyToGetWrongQuestionModel>();
             easyToGetWrongQuestionsTask = appServer.GetEasyToGetWrongQuestionsByQuestion(questionId);
             BindingContext = VM;
         }

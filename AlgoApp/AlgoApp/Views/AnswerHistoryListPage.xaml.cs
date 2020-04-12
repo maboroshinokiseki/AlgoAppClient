@@ -2,43 +2,44 @@
 using AlgoApp.Services;
 using AlgoApp.ViewModels;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace AlgoApp.Views.Teacher
+namespace AlgoApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AnswerHistoryPage : ContentPage
+    public partial class AnswerHistoryListPage : ContentPage
     {
         private readonly IAppServer appServer;
         private readonly Task<CommonListResultModel<HistoryItemModel>> historyTask;
-        private readonly AnswerHistoryPageViewModel vm;
+        private readonly CommonListViewViewModel<ListModel> VM;
 
-        public AnswerHistoryPage()
+        private AnswerHistoryListPage()
         {
             InitializeComponent();
         }
 
-        public AnswerHistoryPage(int uid) : this()
+        public AnswerHistoryListPage(int uid, int cid) : this()
         {
             appServer = DependencyService.Get<IAppServer>();
-            historyTask = appServer.GetUserAnswerHistory(uid);
+            historyTask = appServer.GetUserAnswerHistory(uid, cid);
 
-            vm = new AnswerHistoryPageViewModel
+            VM = new CommonListViewViewModel<ListModel>
             {
                 Items = new ObservableCollection<ListModel>()
             };
 
-            BindingContext = vm;
+            BindingContext = VM;
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            if (vm.Items.Count != 0)
+            if (VM.Items.Count != 0)
             {
                 return;
             }
@@ -46,7 +47,7 @@ namespace AlgoApp.Views.Teacher
             foreach (var item in (await historyTask).Items)
             {
                 var source = item.Correct ? ImageSource.FromFile("ic_action_check.png") : ImageSource.FromFile("ic_icon_wrong.png");
-                vm.Items.Add(new ListModel { AnswerId = item.AnswerId, QuestionId = item.QuestionId, QuestionContent = item.QuestionContent, ImageSource = source });
+                VM.Items.Add(new ListModel { AnswerId = item.AnswerId, QuestionId = item.QuestionId, QuestionContent = item.QuestionContent, ImageSource = source });
             }
         }
 
@@ -55,13 +56,11 @@ namespace AlgoApp.Views.Teacher
             if (!(e.Item is ListModel model))
                 return;
 
-            await Navigation.PushAsync(new AnswerHistoryDetailPage(model.QuestionId, model.AnswerId));
+            var history = await historyTask;
+            var questionIds = history.Items.Select(i => i.QuestionId).ToList();
+            var answerIds = history.Items.Select(i => i.AnswerId).ToList();
+            await Navigation.PushAsync(new QuestionPage(model.QuestionId, questionIds, model.AnswerId, answerIds));
         }
-    }
-
-    public class AnswerHistoryPageViewModel : BaseViewModel
-    {
-        public ObservableCollection<ListModel> Items { get; set; }
     }
 
     public class ListModel
