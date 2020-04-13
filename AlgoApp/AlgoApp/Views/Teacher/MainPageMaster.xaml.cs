@@ -42,6 +42,8 @@ namespace AlgoApp.Views.Teacher
                     new MasterMenuItemModel { Id = 1, Title = "章節列表", Action = () => master.Detail = new NavigationPage(new ChapterListPage()) },
                     new MasterMenuItemModel { Id = 2, Title = "收藏夹", Action = () => master.Detail = new NavigationPage(new QuestionListPage(0, true) { Title = "收藏夹" }) },
                     new MasterMenuItemModel { Id = 3, Title = "班级列表", Action = () => master.Detail = new NavigationPage(new ClassRoomListPage()) },
+                    new MasterMenuItemModel { Id = 4, Title = "新题目建议", Action = () => master.Detail = new NavigationPage(new NewQuestionSuggestionPage()) },
+                    new MasterMenuItemModel { Id = 5, Title = "排行榜", Action = () => master.Detail = new NavigationPage(new RankingTabbedPage()) },
                     new MasterMenuItemModel { Id = 6, Title = "退出", Action = () => {
                         appServer.Logout();
                         Device.BeginInvokeOnMainThread(() => App.Current.MainPage = new NavigationPage(new LoginPage()));

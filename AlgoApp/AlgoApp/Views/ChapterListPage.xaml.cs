@@ -65,7 +65,7 @@ namespace AlgoApp.Views
             }
 
             VM.Items = new ObservableCollection<ChapterModel>(chapters.Items);
-            await Task.Delay(500);
+            //await Task.Delay(500);
             VM.IsBusy = false;
         }
 

@@ -4,14 +4,22 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AlgoApp.Views.Teacher.WrongAnswerUserListPage">
+             x:Class="AlgoApp.Views.Teacher.ClassWrongAnswerChapterListPage"
+             Title="易错章节">
+
     <ListView ItemsSource="{Binding Items}"
+              ItemTapped="ListView_ItemTapped"
               CachingStrategy="RecycleElement"
-              SelectionMode="None">
+              SelectionMode="None"
+              HasUnevenRows="True"
+              IsRefreshing="{Binding IsBusy}">
+
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding UserNickname}" Detail="{Binding UserAnswer}" TextColor="Black" />
+                <TextCell Text="{Binding Content}" Detail="{Binding CorrectRatio, StringFormat='正确率：{0:P}'}" TextColor="Black" />
             </DataTemplate>
         </ListView.ItemTemplate>
+
     </ListView>
+
 </ContentPage>

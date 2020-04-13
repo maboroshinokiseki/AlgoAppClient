@@ -4,25 +4,21 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="AlgoApp.Views.ProfilePage">
+             x:Class="AlgoApp.Views.Teacher.ClassWrongAnswerListPage">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="编辑" Clicked="ToolbarItem_Clicked" />
-    </ContentPage.ToolbarItems>
     <ListView ItemsSource="{Binding Items}"
+              ItemTapped="ListView_ItemTapped"
               CachingStrategy="RecycleElement"
               SelectionMode="None"
+              HasUnevenRows="True"
               IsRefreshing="{Binding IsBusy}">
+
         <ListView.ItemTemplate>
             <DataTemplate>
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="20,0">
-                        <Label Text="{Binding Name, StringFormat='{0}:'}"  HorizontalOptions="StartAndExpand" FontSize="Large" />
-                        <Label FontSize="Large" Text="{Binding Value}" />
-                    </StackLayout>
-                </ViewCell>
+                <TextCell Text="{Binding UserNickname}" Detail="{Binding UserAnswer, StringFormat='所选答案：{0}'}" TextColor="Black" />
             </DataTemplate>
         </ListView.ItemTemplate>
+
     </ListView>
 
 </ContentPage>

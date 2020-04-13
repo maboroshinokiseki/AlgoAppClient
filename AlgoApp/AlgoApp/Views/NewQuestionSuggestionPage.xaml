@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converter="clr-namespace:AlgoApp.Converters"
+             mc:Ignorable="d"
+             x:Class="AlgoApp.Views.NewQuestionSuggestionPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:BoolTextConverter x:Key="BoolTextConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView VerticalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="Start" Padding="20">
+                <Picker ItemsSource="{Binding Chapters}" SelectedItem="{Binding SelectedChapter, Mode=TwoWay}" />
+                <Editor Text="{Binding Content, Mode=OneWayToSource}" AutoSize="TextChanges" />
+                <ListView ItemsSource="{Binding Options}"
+                          CachingStrategy="RecycleElement"
+                          SelectionMode="None"
+                          VerticalOptions="Start"
+                          HorizontalOptions="Start"
+                          HasUnevenRows="True"
+                          HeightRequest="{Binding OptionListHeight}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry Text="{Binding OptionText, Mode=OneWayToSource}" HorizontalOptions="FillAndExpand"/>
+                                    <Picker SelectedItem="{Binding IsCorrect, Mode=TwoWay, Converter={StaticResource BoolTextConverter}}" WidthRequest="60">
+                                        <Picker.Items>
+                                            <x:String>正确</x:String>
+                                            <x:String>错误</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                    <Button Text="删除" Command="{Binding Path=BindingContext.DeleteOptionCommand, Source={RelativeSource AncestorType={Type ContentPage}}}" CommandParameter="{Binding .}" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Button Text="+" Command="{Binding AddOptionCommand}" />
+                <Button Text="提交" Command="{Binding PostMessageCommand}" />
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

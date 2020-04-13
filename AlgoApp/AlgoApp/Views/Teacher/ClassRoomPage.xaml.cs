@@ -110,7 +110,7 @@ namespace AlgoApp.Views.Teacher
 
         private async void ShowEasyToGetWrongQuestionsToolbarItem_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new WrongAnswerListPage(classId));
+            await Navigation.PushAsync(new ClassWrongAnswerChapterListPage(classId));
         }
 
         private void SortByNameAscToolbarItem_Clicked(object sender, EventArgs e)

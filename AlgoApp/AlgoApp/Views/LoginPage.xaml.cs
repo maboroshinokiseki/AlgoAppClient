@@ -27,10 +27,11 @@ namespace AlgoApp.Views
             switch (res.Code)
             {
                 case Codes.Unknown:
-                    await DisplayAlert("錯誤", "未知錯誤", "確定");
+                    await DisplayAlert("错误", "未知错误", "确定");
                     break;
                 case Codes.None:
                     App.UserId = res.UserId;
+                    App.Role = Enum.Parse<UserRole>(res.Role);
                     if (res.Role == "Student")
                     {
                         Device.BeginInvokeOnMainThread(() => App.Current.MainPage = new Student.MainPage());
@@ -41,10 +42,10 @@ namespace AlgoApp.Views
                     }
                     break;
                 case Codes.LoginFailed:
-                    await DisplayAlert("錯誤", "用戶名或密碼錯誤", "確定");
+                    await DisplayAlert("错误", "用户名或密码错误", "确定");
                     break;
                 case Codes.TimeOut:
-                    await DisplayAlert("超時", "請檢查網絡連接", "確定");
+                    await DisplayAlert("超时", "请检查网络连接", "确定");
                     break;
                 default:
                     break;

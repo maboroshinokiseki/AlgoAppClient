@@ -209,14 +209,14 @@ namespace AlgoApp.Services
             return await QueryAsync<QuestionModel>(HttpMethod.Get, $"Questions/{questionId}/{answerId}");
         }
 
-        public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionsByClass(int classId)
+        public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionsByClassChapter(int classId, int chapterId)
         {
-            return await QueryAsync<CommonListResultModel<EasyToGetWrongQuestionModel>>(HttpMethod.Get, $"Questions/EasyToGetWrongQuestionsByClass/{classId}");
+            return await QueryAsync<CommonListResultModel<EasyToGetWrongQuestionModel>>(HttpMethod.Get, $"Questions/EasyToGetWrongQuestionsByClassChapter/{classId}/{chapterId}");
         }
 
-        public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionsByQuestion(int questionId)
+        public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionDetail(int classId,int questionId)
         {
-            return await QueryAsync<CommonListResultModel<EasyToGetWrongQuestionModel>>(HttpMethod.Get, $"Questions/EasyToGetWrongQuestionsByQuestion/{questionId}");
+            return await QueryAsync<CommonListResultModel<EasyToGetWrongQuestionModel>>(HttpMethod.Get, $"Questions/EasyToGetWrongQuestionDetail/{classId}/{questionId}");
         }
 
         public async Task<CommonResultModel> IsQuestionInBookmark(int questionId)
@@ -269,6 +269,33 @@ namespace AlgoApp.Services
         public async Task<CommonListResultModel<ChapterModel>> GetUserAnswerHistoryChapters(int studentId)
         {
             return await QueryAsync<CommonListResultModel<ChapterModel>>(HttpMethod.Get, $"Answer/{studentId}/historyChapters");
+        }
+
+        public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongChaptersByClass(int classId)
+        {
+            return await QueryAsync<CommonListResultModel<EasyToGetWrongQuestionModel>>(HttpMethod.Get, $"Questions/EasyToGetWrongChaptersByClass/{classId}");
+        }
+
+        public async Task<CommonResultModel> UpdateUserInfo(UserModel model)
+        {
+            var json = JsonConvert.SerializeObject(model);
+            return await QueryAsync<CommonResultModel>(HttpMethod.Post, "user/UpdateUserInfo", json);
+        }
+
+        public async Task<CommonResultModel> PostMessage(MessageModel message)
+        {
+            var json = JsonConvert.SerializeObject(message);
+            return await QueryAsync<CommonResultModel>(HttpMethod.Post, "Message", json);
+        }
+
+        public async Task<CommonListResultModel<UserModel>> YesterdayTop10()
+        {
+            return await QueryAsync<CommonListResultModel<UserModel>>(HttpMethod.Get, "user/YesterdayTop10");
+        }
+
+        public async Task<CommonListResultModel<UserModel>> AllTimeTop10()
+        {
+            return await QueryAsync<CommonListResultModel<UserModel>>(HttpMethod.Get, "user/AllTimeTop10");
         }
     }
 }

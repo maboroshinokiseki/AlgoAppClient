@@ -36,6 +36,7 @@ namespace AlgoApp.Views
                     question.AnswerResult = await appServer.PostAnswerAsync(question.Id, o.Id, false);
                     DisplayAnswer(question.AnswerResult);
                 }),
+                QuestionReportCommand = new Command(async () => await Navigation.PushAsync(new QuestionReportPage(question.Id))),
                 UserAnswerColor = Color.White
             };
             VM.HasMoreQuestions = true;
@@ -339,6 +340,7 @@ namespace AlgoApp.Views
             public Command PrevQuestionCommand { get; set; }
             public Command NextQuestionCommand { get; set; }
             public Command BookmarkCommand { get; set; }
+            public Command QuestionReportCommand { get; set; }
         }
 
         public enum PageType

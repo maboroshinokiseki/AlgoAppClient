@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AlgoApp.Views.ProfileEditPage">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Center" Padding="20,0">
+            <Label Text="密码：" />
+            <Entry Text="{Binding Password, Mode=TwoWay}" Placeholder="密码" IsPassword="True" />
+            <Label Text="昵称：" />
+            <Entry Text="{Binding Nickname, Mode=TwoWay}" Placeholder="昵称" />
+            <Label Text="性别：" />
+            <Picker Title="" ItemsSource="{Binding Genders}" SelectedIndex="{Binding SelectedGender, Mode=TwoWay}" />
+            <Label Text="出生日期：" />
+            <DatePicker Date="{Binding Birthday, Mode=TwoWay}" />
+            <Button Text="保存" Command="{Binding SaveUserInfoCommand}" BackgroundColor="#007bff" TextColor="White" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

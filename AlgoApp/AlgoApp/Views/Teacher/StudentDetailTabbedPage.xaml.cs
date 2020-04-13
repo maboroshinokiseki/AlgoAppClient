@@ -6,7 +6,7 @@ namespace AlgoApp.Views.Teacher
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class StudentDetailTabbedPage : TabbedPage
     {
-        public StudentDetailTabbedPage()
+        private StudentDetailTabbedPage()
         {
             InitializeComponent();
         }

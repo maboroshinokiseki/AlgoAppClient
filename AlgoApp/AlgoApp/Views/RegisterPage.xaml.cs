@@ -22,7 +22,7 @@ namespace AlgoApp.Views
         {
             if (passwordEntry.Text != confirmPasswordEntry.Text)
             {
-                await DisplayAlert("錯誤", "兩次輸入密碼不一致", "確定");
+                await DisplayAlert("错误", "两次输入密码不一致", "确定");
                 return;
             }
 
@@ -31,17 +31,18 @@ namespace AlgoApp.Views
             switch (result.Code)
             {
                 case Codes.Unknown:
-                    await DisplayAlert("錯誤", "未知錯誤", "確定");
+                    await DisplayAlert("错误", "未知错误", "确定");
                     break;
                 case Codes.None:
                     App.UserId = result.UserId;
+                    App.Role = UserRole.Student;
                     Device.BeginInvokeOnMainThread(() => App.Current.MainPage = new Student.MainPage());
                     break;
                 case Codes.RegistrationFailed:
-                    await DisplayAlert("錯誤", "用戶名已存在", "確定");
+                    await DisplayAlert("错误", "用户名已存在", "确定");
                     break;
                 case Codes.TimeOut:
-                    await DisplayAlert("超時", "請檢查網絡連接", "確定");
+                    await DisplayAlert("超时", "请检查网络连接", "确定");
                     break;
                 default:
                     break;

@@ -17,6 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Mono.Android">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v9.0\Mono.Android.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Views\AnswerHistoryListPage.xaml.cs">
       <DependentUpon>AnswerHistoryListPage.xaml</DependentUpon>
     </Compile>
@@ -25,6 +31,12 @@
     </Compile>
     <Compile Update="Views\QuestionListPage.xaml.cs">
       <DependentUpon>QuestionListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NewQuestionSuggestionPage.xaml.cs">
+      <DependentUpon>NewQuestionSuggestionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RankingTabbedPage.xaml.cs">
+      <DependentUpon>RankingTabbedPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Student\ClassRoomPage.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
@@ -38,6 +50,15 @@
     <Compile Update="Views\Teacher\ClassRoomPage.xaml.cs">
       <DependentUpon>ClassRoomPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Teacher\ClassWrongAnswerListPage.xaml.cs">
+      <DependentUpon>ClassWrongAnswerListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Teacher\ClassWrongAnswerQuestionListPage.xaml.cs">
+      <DependentUpon>ClassWrongAnswerQuestionListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Teacher\ClassWrongAnswerDetailTabbedPage.xaml.cs">
+      <DependentUpon>ClassWrongAnswerDetailTabbedPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -47,7 +68,16 @@
     <EmbeddedResource Update="Views\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\ProfileEditPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\ProfilePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\QuestionReportPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\RankingTabbedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\RegisterPage.xaml">
@@ -71,6 +101,9 @@
     <EmbeddedResource Update="Views\Teacher\ClassRoomListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Teacher\ClassWrongAnswerChapterListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Teacher\MainPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -80,13 +113,7 @@
     <EmbeddedResource Update="Views\Teacher\StudentDetailTabbedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Teacher\WrongAnswerDetailTabbedPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Teacher\WrongAnswerListPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Teacher\WrongAnswerUserListPage.xaml">
+    <EmbeddedResource Update="Views\Teacher\ClassWrongAnswerDetailTabbedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

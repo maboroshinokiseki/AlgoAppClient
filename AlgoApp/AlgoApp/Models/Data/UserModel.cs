@@ -6,6 +6,7 @@ namespace AlgoApp.Models.Data
     {
         public int Id { get; set; }
         public string Username { get; set; }
+        public string Password { get; set; }
         public string Nickname { get; set; }
         public int Points { get; set; }
         public UserRole Role { get; set; }

@@ -9,6 +9,7 @@ namespace AlgoApp.Services
         Task<LoginResultModel> LoginAsync(string username, string password);
         Task<UserModel> GetCurrentUserAsync();
         Task<LoginResultModel> RegisterAsync(string username, string password);
+        Task<CommonResultModel> UpdateUserInfo(UserModel model);
         Task<CommonListResultModel<ChapterModel>> GetChaperListAsync();
         Task<CommonListResultModel<QuestionModel>> GetQuestionListAsync(int chapterId);
         Task<QuestionModel> GetQuestionAsync(int questionId);
@@ -28,13 +29,17 @@ namespace AlgoApp.Services
         Task<CommonResultModel> RemoveStudentFromClass(int studentId, int classId);
         Task<CommonListResultModel<HistoryItemModel>> GetUserAnswerHistory(int studentId, int chapterId);
         Task<CommonListResultModel<ChapterModel>> GetUserAnswerHistoryChapters(int studentId);
-        Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionsByClass(int classId);
-        Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionsByQuestion(int questionId);
+        Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongChaptersByClass(int classId);
+        Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionsByClassChapter(int classId, int chapterId);
+        Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionDetail(int classId,int questionId);
         Task<CommonResultModel> IsQuestionInBookmark(int questionId);
         Task<CommonResultModel> AddQuestionToBookmark(int questionId);
         Task<CommonResultModel> RemoveQuestionFromBookmark(int questionId);
         Task<CommonListResultModel<QuestionModel>> QuestionsInBookmark();
         Task<QuestionModel> GetDailyPracticeQuestion();
         Task<QuestionModel> GetBreakThroughQuestion();
+        Task<CommonResultModel> PostMessage(MessageModel message);
+        Task<CommonListResultModel<UserModel>> YesterdayTop10();
+        Task<CommonListResultModel<UserModel>> AllTimeTop10();
     }
 }

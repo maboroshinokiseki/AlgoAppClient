@@ -7,7 +7,7 @@
              x:Class="AlgoApp.Views.QuestionPage">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{Binding BookmarkText}" Command="{Binding BookmarkCommand}" />
-        <ToolbarItem Text="题目纠错" Command="{Binding BookmarkCommand}" />
+        <ToolbarItem Text="题目纠错" Command="{Binding QuestionReportCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid>

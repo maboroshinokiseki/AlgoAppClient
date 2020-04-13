@@ -1,6 +1,7 @@
 ﻿using AlgoApp.Models.Data;
 using AlgoApp.Services;
 using AlgoApp.ViewModels;
+using Android.App;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,6 +21,7 @@ namespace AlgoApp.Views
         private readonly CommonListViewViewModel<Item> VM;
         private readonly Task<UserModel> userTask;
         private readonly bool self;
+        private UserModel user;
 
         private ProfilePage()
         {
@@ -44,7 +46,7 @@ namespace AlgoApp.Views
                 return;
             }
 
-            var user = await userTask;
+            this.user = await userTask;
             string gender = "";
             switch (user.Gender)
             {
@@ -65,12 +67,19 @@ namespace AlgoApp.Views
                 VM.Items.Add(new Item { Name = "用户名", Value = user.Username });
                 VM.Items.Add(new Item { Name = "密码", Value = "******" });
             }
+            else
+            {
+                this.ToolbarItems.Clear();
+            }
             VM.Items.Add(new Item { Name = "昵称", Value = user.Nickname });
             VM.Items.Add(new Item { Name = "性别", Value = gender });
             VM.Items.Add(new Item { Name = "生日", Value = user.BirthDay.ToString("yyyy-MM-dd") });
-            VM.Items.Add(new Item { Name = "正确率", Value = user.CorrectRatio.ToString("P") });
-            VM.Items.Add(new Item { Name = "做题数", Value = user.DoneQuestionCount.ToString() });
-            VM.Items.Add(new Item { Name = "积分", Value = user.Points.ToString() });
+            if (App.Role == UserRole.Student)
+            {
+                VM.Items.Add(new Item { Name = "正确率", Value = user.CorrectRatio.ToString("P") });
+                VM.Items.Add(new Item { Name = "做题数", Value = user.DoneQuestionCount.ToString() });
+                VM.Items.Add(new Item { Name = "积分", Value = user.Points.ToString() });
+            }
         }
 
         class Item
@@ -79,36 +88,10 @@ namespace AlgoApp.Views
             public string Value { get; set; }
         }
 
-        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushModalAsync(new ProfileEditPage(user));
+            VM.Items.Clear();
         }
-
-        //class ViewModel : BaseViewModel
-        //{
-        //    private string username;
-
-        //    public string Username
-        //    {
-        //        get => username;
-        //        set => SetValue(out username, value);
-        //    }
-
-        //    private string password;
-
-        //    public string Password
-        //    {
-        //        get => password;
-        //        set => SetValue(out password, value);
-        //    }
-
-        //    private string nickname;
-
-        //    public string Nickname
-        //    {
-        //        get => nickname;
-        //        set => SetValue(out nickname, value);
-        //    }
-        //}
     }
 }
