@@ -7,10 +7,10 @@
              x:Class="AlgoApp.Views.RegisterPage">
     <ContentPage.Content>
         <StackLayout VerticalOptions="CenterAndExpand" Margin="20">
-            <Entry x:Name="usernameEntry" Placeholder="Username" />
-            <Entry x:Name="passwordEntry" Placeholder="Password" IsPassword="True" />
-            <Entry x:Name="confirmPasswordEntry" Placeholder="Confirm Password" IsPassword="True" />
-            <Button Text="Register" Clicked="RegisterButton_Clicked" BackgroundColor="#007bff" TextColor="White" />
+            <Entry x:Name="usernameEntry" Placeholder="用户名" />
+            <Entry x:Name="passwordEntry" Placeholder="密码" IsPassword="True" />
+            <Entry x:Name="confirmPasswordEntry" Placeholder="确认密码" IsPassword="True" />
+            <Button Text="注册" Clicked="RegisterButton_Clicked" Style="{StaticResource btn-primary}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

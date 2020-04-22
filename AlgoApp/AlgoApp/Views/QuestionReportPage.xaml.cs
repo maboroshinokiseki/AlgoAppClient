@@ -33,6 +33,8 @@ namespace AlgoApp.Views
             var content = new { Content = messageEditor.Text, QuestionId = questionId };
             message.Content = JsonConvert.SerializeObject(content);
             await appServer.PostMessage(message);
+
+            await Navigation.PopAsync();
         }
     }
 }

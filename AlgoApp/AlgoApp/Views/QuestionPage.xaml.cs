@@ -33,7 +33,15 @@ namespace AlgoApp.Views
             {
                 PostAnswerCommand = new Command<QuestionModel.Option>(async o =>
                 {
-                    question.AnswerResult = await appServer.PostAnswerAsync(question.Id, o.Id, false);
+                    if (question.Type == QuestionType.SingleSelection)
+                    {
+                        question.AnswerResult = await appServer.PostAnswerAsync(question.Id, new List<int> { o.Id }, false);
+                    }
+                    else if (question.Type == QuestionType.MultiSelection)
+                    {
+                        question.AnswerResult = await appServer.PostAnswerAsync(question.Id, VM.Items.Where(o => o.IsChecked).Select(o => o.Id).ToList(), false);
+                    }
+
                     DisplayAnswer(question.AnswerResult);
                 }),
                 QuestionReportCommand = new Command(async () => await Navigation.PushAsync(new QuestionReportPage(question.Id))),
@@ -45,7 +53,7 @@ namespace AlgoApp.Views
             {
                 VM.IsinList = true;
                 VM.CurrentIndex = questionIds.IndexOf(questionId);
-                
+
                 if (answerIds != null)
                 {
                     VM.PrevQuestionCommand = new Command(async () => await DisplayQuestion(questionIds[--VM.CurrentIndex], answerIds[VM.CurrentIndex]), () => VM.CurrentIndex != 0);
@@ -62,7 +70,14 @@ namespace AlgoApp.Views
             {
                 VM.PostAnswerCommand = new Command<QuestionModel.Option>(async o =>
                 {
-                    question.AnswerResult = await appServer.PostAnswerAsync(question.Id, o.Id, true);
+                    if (question.Type == QuestionType.SingleSelection)
+                    {
+                        question.AnswerResult = await appServer.PostAnswerAsync(question.Id, new List<int> { o.Id }, true);
+                    }
+                    else if (question.Type == QuestionType.MultiSelection)
+                    {
+                        question.AnswerResult = await appServer.PostAnswerAsync(question.Id, VM.Items.Where(o => o.IsChecked).Select(o => o.Id).ToList(), true);
+                    }
                     DisplayAnswer(question.AnswerResult);
                     VM.Answered = true;
                 });
@@ -74,7 +89,15 @@ namespace AlgoApp.Views
             {
                 VM.PostAnswerCommand = new Command<QuestionModel.Option>(async o =>
                 {
-                    question.AnswerResult = await appServer.PostAnswerAsync(question.Id, o.Id, false);
+                    if (question.Type == QuestionType.SingleSelection)
+                    {
+                        question.AnswerResult = await appServer.PostAnswerAsync(question.Id, new List<int> { o.Id }, false);
+                    }
+                    else if (question.Type == QuestionType.MultiSelection)
+                    {
+                        question.AnswerResult = await appServer.PostAnswerAsync(question.Id, VM.Items.Where(o => o.IsChecked).Select(o => o.Id).ToList(), false);
+                    }
+
                     DisplayAnswer(question.AnswerResult);
                     VM.Answered = true;
                 });
@@ -110,6 +133,10 @@ namespace AlgoApp.Views
 
         private async Task DisplayQuestion(int questionId, int answerId = 0, PageType pageType = PageType.Normal)
         {
+            VM.ShowAnswers = false;
+            VM.ShowSingleSelectionOptions = false;
+            VM.ShowMultiSelectionOptions = false;
+
             if (pageType == PageType.Normal)
             {
                 if (answerId == 0)
@@ -120,33 +147,17 @@ namespace AlgoApp.Views
                 {
                     question = await appServer.GetQuestionWithAnswerAsync(questionId, answerId);
                 }
-
-                VM.ShowAnswers = false;
-                VM.ShowOptions = false;
-
-                if (question.AnswerResult == null)
-                {
-                    VM.ShowOptions = true;
-                }
-                else
-                {
-                    DisplayAnswer(question.AnswerResult);
-                }
             }
             else if (pageType == PageType.DailyPractice)
             {
                 question = await appServer.GetDailyPracticeQuestion();
 
-                VM.ShowAnswers = false;
-                VM.ShowOptions = true;
                 VM.Answered = false;
             }
             else if (pageType == PageType.BreakThroughMode)
             {
                 question = await appServer.GetBreakThroughQuestion();
 
-                VM.ShowAnswers = false;
-                VM.ShowOptions = true;
                 VM.Answered = false;
             }
 
@@ -156,6 +167,25 @@ namespace AlgoApp.Views
                 VM.HasMoreQuestions = false;
                 ToolbarItems.Clear();
                 return;
+            }
+
+            if (question.AnswerResult == null)
+            {
+                switch (question.Type)
+                {
+                    case QuestionType.SingleSelection:
+                        VM.ShowSingleSelectionOptions = true;
+                        break;
+                    case QuestionType.MultiSelection:
+                        VM.ShowMultiSelectionOptions = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                DisplayAnswer(question.AnswerResult);
             }
 
             VM.QuestionContent = question.Content;
@@ -180,14 +210,15 @@ namespace AlgoApp.Views
 
         private void DisplayAnswer(AnswerResultModel answer)
         {
-            VM.ShowOptions = false;
+            VM.ShowSingleSelectionOptions = false;
+            VM.ShowMultiSelectionOptions = false;
             VM.ShowAnswers = true;
 
             VM.OptionsString = string.Join("、", question.Options.Select(o => o.Content));
-            VM.HaveUserAnswer = answer.UserAnswer != null;
+            VM.HaveUserAnswer = answer.UserAnswers != null;
             VM.UserAnswerColor = answer.Correct ? Color.Green : Color.Red;
-            VM.UserAnswer = answer.UserAnswer;
-            VM.CorrectAnswer = answer.CorrectAnswer;
+            VM.UserAnswer = string.Join("、", answer.UserAnswers ?? Enumerable.Empty<string>());
+            VM.CorrectAnswer = string.Join("、", answer.CorrectAnswers ?? Enumerable.Empty<string>());
             VM.Analysis = question.Analysis;
         }
 
@@ -218,14 +249,6 @@ namespace AlgoApp.Views
             {
                 get => showAnswers;
                 set => SetValue(out showAnswers, value);
-            }
-
-            private bool showOptions;
-
-            public bool ShowOptions
-            {
-                get => showOptions;
-                set => SetValue(out showOptions, value);
             }
 
             private string optionsString;
@@ -336,6 +359,22 @@ namespace AlgoApp.Views
                 set => SetValue(out noMoreQuestions, value);
             }
 
+            private bool showSingleSelectionOptions;
+
+            public bool ShowSingleSelectionOptions
+            {
+                get => showSingleSelectionOptions;
+                set => SetValue(out showSingleSelectionOptions, value);
+            }
+
+            private bool showMultiSelectionOptions;
+
+            public bool ShowMultiSelectionOptions
+            {
+                get => showMultiSelectionOptions;
+                set => SetValue(out showMultiSelectionOptions, value);
+            }
+
             public Command<QuestionModel.Option> PostAnswerCommand { get; set; }
             public Command PrevQuestionCommand { get; set; }
             public Command NextQuestionCommand { get; set; }
@@ -348,6 +387,14 @@ namespace AlgoApp.Views
             Normal,
             DailyPractice,
             BreakThroughMode,
+        }
+
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (!(e.Item is QuestionModel.Option option))
+                return;
+
+            option.IsChecked = !option.IsChecked;
         }
     }
 }

@@ -74,7 +74,7 @@ namespace AlgoApp.Views
             VM.Items.Add(new Item { Name = "昵称", Value = user.Nickname });
             VM.Items.Add(new Item { Name = "性别", Value = gender });
             VM.Items.Add(new Item { Name = "生日", Value = user.BirthDay.ToString("yyyy-MM-dd") });
-            if (App.Role == UserRole.Student)
+            if (user.Role == UserRole.Student)
             {
                 VM.Items.Add(new Item { Name = "正确率", Value = user.CorrectRatio.ToString("P") });
                 VM.Items.Add(new Item { Name = "做题数", Value = user.DoneQuestionCount.ToString() });

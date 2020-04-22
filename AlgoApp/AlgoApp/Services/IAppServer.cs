@@ -1,4 +1,5 @@
 ﻿using AlgoApp.Models.Data;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AlgoApp.Services
@@ -14,7 +15,7 @@ namespace AlgoApp.Services
         Task<CommonListResultModel<QuestionModel>> GetQuestionListAsync(int chapterId);
         Task<QuestionModel> GetQuestionAsync(int questionId);
         Task<QuestionModel> GetQuestionWithAnswerAsync(int questionId, int answerId);
-        Task<AnswerResultModel> PostAnswerAsync(int questionId, int answerId, bool isDailyPractice);
+        Task<AnswerResultModel> PostAnswerAsync(int questionId, List<int> answerIds, bool isDailyPractice);
         void Logout();
         Task<CommonListResultModel<ClassRoomModel>> MyClassRooms();
         Task<ClassRoomModel> ClassRoom(int id);

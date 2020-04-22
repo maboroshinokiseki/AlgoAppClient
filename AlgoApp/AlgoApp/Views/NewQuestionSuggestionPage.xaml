@@ -14,8 +14,11 @@
     <ContentPage.Content>
         <ScrollView VerticalOptions="FillAndExpand">
             <StackLayout VerticalOptions="Start" Padding="20">
+                <Label Text="章节：" />
                 <Picker ItemsSource="{Binding Chapters}" SelectedItem="{Binding SelectedChapter, Mode=TwoWay}" />
+                <Label Text="题目：" />
                 <Editor Text="{Binding Content, Mode=OneWayToSource}" AutoSize="TextChanges" />
+                <Label Text="选项：" />
                 <ListView ItemsSource="{Binding Options}"
                           CachingStrategy="RecycleElement"
                           SelectionMode="None"
@@ -34,14 +37,18 @@
                                             <x:String>错误</x:String>
                                         </Picker.Items>
                                     </Picker>
-                                    <Button Text="删除" Command="{Binding Path=BindingContext.DeleteOptionCommand, Source={RelativeSource AncestorType={Type ContentPage}}}" CommandParameter="{Binding .}" />
+                                    <Button Text="删除" Command="{Binding Path=BindingContext.DeleteOptionCommand, Source={RelativeSource AncestorType={Type ContentPage}}}" CommandParameter="{Binding .}" Style="{StaticResource btn-danger}" />
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Button Text="+" Command="{Binding AddOptionCommand}" />
-                <Button Text="提交" Command="{Binding PostMessageCommand}" />
+                <Button Text="+" Command="{Binding AddOptionCommand}" Style="{StaticResource btn-primary}" />
+                <Label Text="解析：" />
+                <Editor Text="{Binding Analysis, Mode=OneWayToSource}" AutoSize="TextChanges" />
+                <Label Text="难度：" />
+                <Entry Keyboard="Numeric" Text="{Binding Difficulty, Mode=TwoWay}" />
+                <Button Text="提交" Command="{Binding PostMessageCommand}" Style="{StaticResource btn-primary}" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

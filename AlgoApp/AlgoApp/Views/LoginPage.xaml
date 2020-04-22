@@ -10,10 +10,10 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout VerticalOptions="CenterAndExpand" Margin="20">
-            <Entry x:Name="usernameEntry" Placeholder="Username" />
-            <Entry x:Name="passwordEntry" Placeholder="Password" IsPassword="True" />
-            <Button Text="Login" Clicked="LoginButton_Clicked" BackgroundColor="#007bff" TextColor="White" />
-            <Button Text="Register" Clicked="RegisterButton_Clicked" />
+            <Entry x:Name="usernameEntry" Placeholder="用户名" />
+            <Entry x:Name="passwordEntry" Placeholder="密码" IsPassword="True" />
+            <Button Text="登录" Clicked="LoginButton_Clicked" Style="{StaticResource btn-primary}" />
+            <Button Text="注册" Clicked="RegisterButton_Clicked" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

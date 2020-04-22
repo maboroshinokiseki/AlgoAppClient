@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AlgoApp.ViewModels;
+using System.Collections.Generic;
 
 namespace AlgoApp.Models.Data
 {
@@ -12,10 +13,17 @@ namespace AlgoApp.Models.Data
         public QuestionStatus Status { get; set; }
         public string Analysis { get; set; }
         public AnswerResultModel AnswerResult { get; set; }
-        public class Option
+        public class Option : BaseViewModel
         {
+            private bool isChecked;
+
             public int Id { get; set; }
             public string Content { get; set; }
+            public bool IsChecked
+            {
+                get => isChecked;
+                set => SetValue(out isChecked, value);
+            }
         }
     }
 }

@@ -22,7 +22,7 @@
             </ListView.ItemTemplate>
         </ListView>
     </ContentPage>
-    <ContentPage Title="總排行">
+    <ContentPage Title="总排行">
         <ListView ItemsSource="{Binding AllTimeTop10}"
               CachingStrategy="RecycleElement"
               SelectionMode="None">

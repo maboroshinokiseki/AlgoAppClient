@@ -1,6 +1,7 @@
 ﻿using AlgoApp.Models.Data;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -53,10 +54,6 @@ namespace AlgoApp.Services
         public async Task<CommonListResultModel<ChapterModel>> GetChaperListAsync()
         {
             var model = await QueryAsync<CommonListResultModel<ChapterModel>>(HttpMethod.Get, "Chapters");
-            foreach (var item in model.Items)
-            {
-                item.Name = $"第{item.Order}章 {item.Name}";
-            }
 
             return model;
         }
@@ -130,9 +127,9 @@ namespace AlgoApp.Services
 
         }
 
-        public async Task<AnswerResultModel> PostAnswerAsync(int questionId, int answerId, bool isDailyPractice)
+        public async Task<AnswerResultModel> PostAnswerAsync(int questionId, List<int> answerIds, bool isDailyPractice)
         {
-            var json = JsonConvert.SerializeObject(new { questionId, answerId, isDailyPractice });
+            var json = JsonConvert.SerializeObject(new { questionId, answerIds, isDailyPractice });
             var result = await QueryAsync<AnswerResultModel>(HttpMethod.Post, "Answer", json);
 
             return result;

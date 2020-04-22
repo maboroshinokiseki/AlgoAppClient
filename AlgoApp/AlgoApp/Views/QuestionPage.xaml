@@ -20,7 +20,26 @@
                 <ScrollView Grid.Row="0" VerticalOptions="Start">
                     <Label Text="{Binding QuestionContent}" />
                 </ScrollView>
-                <ListView Grid.Row="1" VerticalOptions="CenterAndExpand" IsVisible="{Binding ShowOptions}" ItemsSource="{Binding Items}">
+                <Grid Grid.Row="1" VerticalOptions="CenterAndExpand" IsVisible="{Binding ShowMultiSelectionOptions}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ListView Grid.Row="0" VerticalOptions="CenterAndExpand" ItemsSource="{Binding Items}" SelectionMode="None" ItemTapped="ListView_ItemTapped">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal">
+                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+                                        <Label Text="{Binding Content}" />
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button Grid.Row="1" Text="提交" Command="{Binding Path=BindingContext.PostAnswerCommand, Source={RelativeSource AncestorType={Type ContentPage}}}" />
+                </Grid>
+                <ListView Grid.Row="1" VerticalOptions="CenterAndExpand" IsVisible="{Binding ShowSingleSelectionOptions}" ItemsSource="{Binding Items}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>

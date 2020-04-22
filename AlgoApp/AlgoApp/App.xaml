@@ -12,6 +12,14 @@
                 <Setter Property="VerticalOptions" Value="CenterAndExpand" />
                 <Setter Property="VerticalTextAlignment" Value="Center" />
             </Style>
+            <Style x:Key="btn-primary" TargetType="Button">
+                <Setter Property="TextColor" Value="#ffffff" />
+                <Setter Property="BackgroundColor" Value="#007bff" />
+            </Style>
+            <Style x:Key="btn-danger" TargetType="Button">
+                <Setter Property="TextColor" Value="#ffffff" />
+                <Setter Property="BackgroundColor" Value="#dc3545" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

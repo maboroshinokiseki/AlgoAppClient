@@ -15,7 +15,7 @@
             <Picker Title="" ItemsSource="{Binding Genders}" SelectedIndex="{Binding SelectedGender, Mode=TwoWay}" />
             <Label Text="出生日期：" />
             <DatePicker Date="{Binding Birthday, Mode=TwoWay}" />
-            <Button Text="保存" Command="{Binding SaveUserInfoCommand}" BackgroundColor="#007bff" TextColor="White" />
+            <Button Text="保存" Command="{Binding SaveUserInfoCommand}" Style="{StaticResource btn-primary}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

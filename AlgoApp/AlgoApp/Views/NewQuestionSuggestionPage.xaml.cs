@@ -2,12 +2,7 @@
 using AlgoApp.Services;
 using AlgoApp.ViewModels;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -33,7 +28,33 @@ namespace AlgoApp.Views
                 VM.Options.Add(new Option { IsCorrect = false });
                 VM.OptionListHeight = VM.Options.Count * 50;
             });
-            VM.PostMessageCommand = new Command(async () => await appServer.PostMessage(new MessageModel { UserId = App.UserId, MessageType = MessageType.NewQuestion, Content = JsonConvert.SerializeObject(VM) }));
+
+
+
+            VM.PostMessageCommand = new Command(
+                async () =>
+                {
+                    if (string.IsNullOrWhiteSpace(VM.Content))
+                    {
+                        await DisplayAlert("错误", "题目不能为空", "确认");
+                        return;
+                    }
+                    var obj = new { VM.Content, ChapterId = VM.SelectedChapter.Id, VM.Options, VM.Difficulty, VM.Analysis };
+                    var result = await appServer.PostMessage(new MessageModel
+                    {
+                        UserId = App.UserId,
+                        MessageType = MessageType.NewQuestion,
+                        Content = JsonConvert.SerializeObject(obj)
+                    });
+                    if (result.Code == Codes.None)
+                    {
+                        await DisplayAlert("提示", "题目提交成功", "确认");
+                    }
+                    else
+                    {
+                        await DisplayAlert("错误", "未知错误，请稍后再重新尝试", "确认");
+                    }
+                });
             BindingContext = VM;
         }
 
@@ -59,6 +80,8 @@ namespace AlgoApp.Views
             public ChapterModel SelectedChapter { get => selectedChapter; set => SetValue(out selectedChapter, value); }
             public int OptionListHeight { get => optionListHeight; set => SetValue(out optionListHeight, value); }
             public string Content { get; set; }
+            public string Analysis { get; set; }
+            public int Difficulty { get; set; }
             public ObservableCollection<Option> Options { get; set; }
             public Command<Option> DeleteOptionCommand { get; set; }
             public Command AddOptionCommand { get; set; }
