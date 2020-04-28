@@ -11,6 +11,7 @@ namespace AlgoApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProfileEditPage : ContentPage
     {
+        private BaseViewModel sideMaster;
         private UserModel model;
         private IAppServer appServer;
 
@@ -20,8 +21,9 @@ namespace AlgoApp.Views
         {
             InitializeComponent();
         }
-        public ProfileEditPage(UserModel model) : this()
+        public ProfileEditPage(UserModel model, BaseViewModel sideMaster) : this()
         {
+            this.sideMaster = sideMaster;
             this.model = model;
             appServer = DependencyService.Get<IAppServer>();
             VM = new ViewModel { Password = model.Password, Birthday = model.BirthDay, SelectedGender = (int)model.Gender, Nickname = model.Nickname };
@@ -37,6 +39,17 @@ namespace AlgoApp.Views
                 model.Gender = (Gender)VM.SelectedGender;
                 model.Nickname = VM.Nickname;
                 model.Password = VM.Password;
+                switch (model.Role)
+                {
+                    case UserRole.Teacher:
+                        (sideMaster as Teacher.MainPageMaster.MainPageMasterViewModel).Name = VM.Nickname;
+                        break;
+                    case UserRole.Student:
+                        (sideMaster as Student.MainPageMaster.MainPageMasterViewModel).Name = VM.Nickname;
+                        break;
+                    default:
+                        break;
+                }
                 await appServer.UpdateUserInfo(model);
                 await DisplayAlert("成功", "成功更新信息", "确认");
             });

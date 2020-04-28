@@ -2,7 +2,7 @@
 
 namespace AlgoApp.Models
 {
-    class MasterMenuItemModel
+    public class MasterMenuItemModel
     {
         public int Id { get; set; }
         public string Title { get; set; }

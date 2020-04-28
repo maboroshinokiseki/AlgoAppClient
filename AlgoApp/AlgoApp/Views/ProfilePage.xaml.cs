@@ -17,6 +17,7 @@ namespace AlgoApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProfilePage : ContentPage
     {
+        private readonly BaseViewModel sideMaster;
         private readonly IAppServer appServer;
         private readonly CommonListViewViewModel<Item> VM;
         private readonly Task<UserModel> userTask;
@@ -28,8 +29,9 @@ namespace AlgoApp.Views
             InitializeComponent();
         }
 
-        public ProfilePage(int userId, bool self = false):this()
+        public ProfilePage(int userId, BaseViewModel sideMaster = null, bool self = false):this()
         {
+            this.sideMaster = sideMaster;
             appServer = DependencyService.Get<IAppServer>();
             VM = new CommonListViewViewModel<Item> { Items = new ObservableCollection<Item>() };
             BindingContext = VM;
@@ -90,7 +92,7 @@ namespace AlgoApp.Views
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new ProfileEditPage(user));
+            await Navigation.PushModalAsync(new ProfileEditPage(user, sideMaster));
             VM.Items.Clear();
         }
     }

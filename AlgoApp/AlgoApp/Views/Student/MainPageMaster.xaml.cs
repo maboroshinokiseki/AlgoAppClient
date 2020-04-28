@@ -23,7 +23,7 @@ namespace AlgoApp.Views.Student
             this.master = master;
         }
 
-        class MainPageMasterViewModel : BaseListViewModel<MasterMenuItemModel>
+        public class MainPageMasterViewModel : BaseListViewModel<MasterMenuItemModel>
         {
             private string name;
             public string Name
@@ -38,7 +38,7 @@ namespace AlgoApp.Views.Student
                 var appServer = DependencyService.Get<IAppServer>();
                 Items = new ObservableCollection<MasterMenuItemModel>(new[]
                 {
-                    new MasterMenuItemModel { Id = 0, Title = "个人信息", Action = () => master.Detail = new NavigationPage(new ProfilePage(App.UserId, true)) },
+                    new MasterMenuItemModel { Id = 0, Title = "个人信息", Action = () => master.Detail = new NavigationPage(new ProfilePage(App.UserId, this, true)) },
                     new MasterMenuItemModel { Id = 1, Title = "章节列表", Action = () => master.Detail = new NavigationPage(new ChapterListPage()) },
                     new MasterMenuItemModel { Id = 2, Title = "收藏夹", Action = () => master.Detail = new NavigationPage(new QuestionListPage(0, true) { Title = "收藏夹" }) },
                     new MasterMenuItemModel { Id = 3, Title = "班级列表", Action = () => master.Detail = new NavigationPage(new ClassRoomListPage()) },

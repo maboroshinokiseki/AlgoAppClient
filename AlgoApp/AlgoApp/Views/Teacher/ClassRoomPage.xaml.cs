@@ -74,7 +74,7 @@ namespace AlgoApp.Views.Teacher
             public string Display
             {
                 get => display;
-                set => display = value;
+                set => SetValue(out display, value);
             }
         }
 

@@ -30,7 +30,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Orientation="Horizontal">
-                                    <Entry Text="{Binding OptionText, Mode=OneWayToSource}" HorizontalOptions="FillAndExpand"/>
+                                    <Entry Text="{Binding OptionText, Mode=TwoWay}" HorizontalOptions="FillAndExpand"/>
                                     <Picker SelectedItem="{Binding IsCorrect, Mode=TwoWay, Converter={StaticResource BoolTextConverter}}" WidthRequest="60">
                                         <Picker.Items>
                                             <x:String>正确</x:String>
