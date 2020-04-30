@@ -69,7 +69,7 @@ namespace AlgoApp.Views
                 {
                     if (newDomain != null)
                     {
-                        await DisplayAlert("錯誤", "非法地址", "確認");
+                        await DisplayAlert("错误", "非法地址", "确认");
                     }
                     else
                     {

@@ -11,7 +11,7 @@ namespace AlgoApp.Extensions
             string inputText;
             while (true)
             {
-                inputText = await page.DisplayPromptAsync(title, message, "確認", "取消", placeholder, initialValue: initialValue);
+                inputText = await page.DisplayPromptAsync(title, message, "确认", "取消", placeholder, initialValue: initialValue);
                 if (string.IsNullOrWhiteSpace(inputText))
                 {
                     if (inputText != null)
